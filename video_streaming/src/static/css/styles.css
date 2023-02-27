@@ -1,0 +1,14 @@
+#video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 2px;
+
+}
+
+#my-video {
+    border: 5px solid gray;
+    border-radius: 7px;
+
+}
