@@ -29,7 +29,7 @@ async def stream_video():
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     active_connections.add(websocket)
-
+    print('hi')
     try:
         while True:
             message = await websocket.receive_text()
