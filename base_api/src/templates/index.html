@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <title>Video Player with Chat </title>
+    <link href="https://vjs.zencdn.net/8.0.4/video-js.css" rel="stylesheet"/>
+    <link href="{{ url_for('static', path='/css/styles.css') }}" rel="stylesheet">
+
+    <script src="https://vjs.zencdn.net/8.0.4/video.min.js"></script>
+    <div id="host" style="display:none;">{{ host }}</div>
+    <div id="port" style="display:none;">{{ port }}</div>
+    <div id="path_video_socket" style="display:none;">{{ path_video_socket }}</div>
+<!--    <div id="path_web_socket" style="display:none;">{{ path_web_socket }}</div>-->
+</head>
+<body>
+<div class="video-container">
+    <video
+            id="my-video"
+            class="video-js"
+            controls
+            muted
+            preload="auto"
+            width="640"
+            height="400"
+            poster="https://www.dpreview.com/files/p/articles/5544316196/CleanShot_2022-03-15_at_20.28.02.jpeg"
+            data-setup="{}">
+
+        <source src="/api/v1/stream/{{ film_id }}" type="video/mp4"/>
+        <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a
+            web browser that
+            <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+        </p>
+    </video>
+
+
+    <div class="chat-box">
+        <h2>Chat</h2>
+        <div class="messages">
+            <div class="message">
+                <span class="user">User1:</span>
+                <span class="text">Hi there!</span>
+            </div>
+            <div class="message">
+                <span class="user">User2:</span>
+                <span class="text">Hello!</span>
+            </div>
+            <!-- Add more messages here -->
+        </div>
+        <form>
+            <input type="text" placeholder="Type your message...">
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', path='/js/video.js') }}"></script>
+</body>
+</html>

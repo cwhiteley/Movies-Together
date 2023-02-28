@@ -1,10 +1,14 @@
 import uvicorn
+import json
 import logging
 from redis import asyncio as aioredis
 from fastapi import FastAPI
+
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import ORJSONResponse
 
 from api.v1 import groups
+from api.v1 import stream
 from db import redis
 from core.config import settings
 
@@ -17,6 +21,9 @@ app = FastAPI(
     openapi_url="/api/openapi.json",
     default_response_class=ORJSONResponse,
 )
+
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.on_event("startup")
@@ -36,6 +43,7 @@ async def shutdown():
 
 
 app.include_router(groups.router, prefix="/api/v1/groups", tags=["Group views"])
+app.include_router(stream.router, prefix="/api/v1/stream", tags=["Stream film"])
 
 if __name__ == "__main__":
     uvicorn.run(
