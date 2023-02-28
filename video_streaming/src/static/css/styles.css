@@ -1,14 +1,81 @@
-#video-container {
+.video-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 2px;
 
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    height: 100vh;
+}
+
+.video-container video {
+    width: 70%;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
 #my-video {
     border: 5px solid gray;
     border-radius: 7px;
 
+}
+
+.chat-box {
+    width: 25%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chat-box h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.chat-box .messages {
+    height: 300px;
+    overflow-y: scroll;
+    margin-bottom: 20px;
+}
+
+.chat-box .message {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.chat-box .user {
+    font-weight: bold;
+    margin-right: 5px;
+    color: #666;
+}
+
+.chat-box .text {
+    color: #333;
+}
+
+.chat-box input[type="text"] {
+    width: 70%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.chat-box button[type="submit"] {
+    padding: 10px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.chat-box button[type="submit"]:hover {
+    background-color: #3e8e41;
 }
