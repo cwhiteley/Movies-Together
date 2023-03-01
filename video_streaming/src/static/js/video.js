@@ -1,5 +1,8 @@
 const player = videojs('my-video');
-const socket = new WebSocket("ws://localhost:8000/ws");
+const myVideo = document.getElementById('my-video');
+const myParam = myVideo.getAttribute('data-param');
+var socket = new WebSocket(`ws://localhost:8000/ws?session_id=` + myParam);
+
 const randomUserName = Math.random().toString(36).substring(7);
 let lastTime = player.currentTime();
 let paused = true;

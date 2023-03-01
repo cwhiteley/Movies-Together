@@ -17,17 +17,17 @@
             preload="auto"
             width="640"
             height="400"
-            poster="https://www.dpreview.com/files/p/articles/5544316196/CleanShot_2022-03-15_at_20.28.02.jpeg"
+            poster="{{ url_for('static', path=movie_poster) }}"
+            data-param="{{ session_id }}"
             data-setup="{}">
 
-        <source src="/video" type="video/mp4"/>
+        <source src="{{ url_for('stream_video', movie_id=movie_id) }}" type="video/mp4"/>
         <p class="vjs-no-js">
             To view this video please enable JavaScript, and consider upgrading to a
             web browser that
             <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
         </p>
     </video>
-
 
     <div class="chat-box">
         <h2>Chat</h2>
