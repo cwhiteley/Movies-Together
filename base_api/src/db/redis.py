@@ -1,5 +1,5 @@
-import logging
 import hashlib
+import logging
 from typing import Optional
 
 from aioredis import Redis
@@ -50,7 +50,7 @@ class Redis:
         Returns:
             str: ключ для данного запроса.
         """
-        data = ','.join([str(param) for param in params])
+        data = ",".join([str(param) for param in params])
         key = data.encode("utf-8")
 
         return hashlib.md5(key).hexdigest()

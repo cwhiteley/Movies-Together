@@ -5,11 +5,13 @@ from fastapi import APIRouter, Depends, Request, WebSocket, WebSocketDisconnect
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
-from services.groups import get_groups_service, GroupsService
+from services.groups import GroupsService, get_groups_service
 
 router = APIRouter()
 
 templates = Jinja2Templates(directory="templates")
+
+
 @router.post(
     "/{film_id}",
     summary="Create a group movie channel.",
@@ -17,10 +19,9 @@ templates = Jinja2Templates(directory="templates")
     response_description="Return link to stream.",
 )
 async def path(
-        film_id: str,
-        service: GroupsService = Depends(get_groups_service)
-    ) -> str:
-    link = await service.create_chat(film_id=film_id, user_id='user')
+    film_id: str, service: GroupsService = Depends(get_groups_service)
+) -> str:
+    link = await service.create_chat(film_id=film_id, user_id="user")
     return JSONResponse(content=jsonable_encoder(link))
 
 
@@ -31,23 +32,31 @@ async def path(
     response_description="Return status.",
 )
 async def path(
-        link_id: str, request: Request
-    ) -> str:
-    # TODO добавить получение фильма из бд
-    film_id = "Video"
-    return templates.TemplateResponse("index.html",
-                                      {
-                                          "request": request,
-                                          "host": "localhost",
-                                          "port": "8000",
-                                          "path_video_socket": f"/api/v1/groups/ws/{link_id}",
-                                          "film_id": f"{film_id}",
-                                      }
-                                      )
+    link_id: str, request: Request, service: GroupsService = Depends(get_groups_service)
+) -> str:
+    data = await service.get_data_from_cache(link_id)
+    film_id = data.get("film_id")
+    if not film_id:
+        return JSONResponse(
+            status_code=500,
+            content=jsonable_encoder({"message": "group view not found"}),
+        )
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "host": "localhost",
+            "port": "8000",
+            "path_video_socket": f"/api/v1/groups/ws/{link_id}",
+            "film_id": f"{film_id}",
+        },
+    )
 
 
 clients = []
 active_connections = set()
+
+
 @router.websocket("/ws/{link_id}")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
