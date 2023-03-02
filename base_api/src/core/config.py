@@ -24,8 +24,8 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = (
-            os.path.join(ENV_DIR, ".env.example"),
-            os.path.join(ENV_DIR, ".env.example.dev"),
+            os.path.join(ENV_DIR, ".env"),
+            os.path.join(ENV_DIR, ".env.dev"),
         )
         env_nested_delimiter = "__"
 
