@@ -46,6 +46,8 @@ async def path(
         {
             "request": request,
             "host": "localhost",
+            "host_chat": "localhost",
+            "port_chat": "8001",
             "port": "8000",
             "path_video_socket": f"/api/v1/groups/ws/video/{link_id}",
             "path_chat_socket": f"/api/v1/groups/ws/chat/{link_id}",
@@ -96,15 +98,15 @@ async def websocket_endpoint(websocket: WebSocket):
         active_connections.remove(websocket)
 
 
-@router.websocket("/ws/chat/{link_id}")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    active_connections.add(websocket)
-    try:
-        while True:
-            data = await websocket.receive_text()
-            message = json.loads(data)
-            for connection in active_connections:
-                await connection.send_text(f"User_{message['user']}: {message['data']}")
-    except WebSocketDisconnect:
-        active_connections.remove(websocket)
+# @router.websocket("/ws/chat/{link_id}")
+# async def websocket_endpoint(websocket: WebSocket):
+#     await websocket.accept()
+#     active_connections.add(websocket)
+#     try:
+#         while True:
+#             data = await websocket.receive_text()
+#             message = json.loads(data)
+#             for connection in active_connections:
+#                 await connection.send_text(f"User_{message['user']}: {message['data']}")
+#     except WebSocketDisconnect:
+#         active_connections.remove(websocket)
