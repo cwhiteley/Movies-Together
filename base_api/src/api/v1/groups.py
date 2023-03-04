@@ -1,7 +1,4 @@
-import json
-
-import fastapi
-from fastapi import APIRouter, Depends, Request, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, Depends, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
@@ -48,65 +45,9 @@ async def path(
             "host": "localhost",
             "host_chat": "localhost",
             "port_chat": "8001",
-            "port": "8000",
+            "port": "8002",
             "path_video_socket": f"/api/v1/groups/ws/video/{link_id}",
             "path_chat_socket": f"/api/v1/groups/ws/chat/{link_id}",
             "film_id": f"{film_id}",
         },
     )
-
-
-clients = []
-active_connections = set()
-
-
-@router.websocket("/ws/video/{link_id}")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    active_connections.add(websocket)
-    try:
-        while True:
-            message = await websocket.receive_text()
-            message_data = json.loads(message)
-
-            if message_data["event_name"] == "play":
-                for connection in active_connections:
-                    await connection.send_text(
-                        json.dumps({"event_name": "play", "user": message_data["user"]})
-                    )
-
-            elif message_data["event_name"] == "pause":
-                for connection in active_connections:
-                    await connection.send_text(
-                        json.dumps(
-                            {"event_name": "pause", "user": message_data["user"]}
-                        )
-                    )
-
-            elif message_data["event_name"] == "change_time":
-                for connection in active_connections:
-                    await connection.send_text(
-                        json.dumps(
-                            {
-                                "event_name": "change_time",
-                                "time": message_data["time"],
-                                "user": message_data["user"],
-                            }
-                        )
-                    )
-    except WebSocketDisconnect:
-        active_connections.remove(websocket)
-
-
-# @router.websocket("/ws/chat/{link_id}")
-# async def websocket_endpoint(websocket: WebSocket):
-#     await websocket.accept()
-#     active_connections.add(websocket)
-#     try:
-#         while True:
-#             data = await websocket.receive_text()
-#             message = json.loads(data)
-#             for connection in active_connections:
-#                 await connection.send_text(f"User_{message['user']}: {message['data']}")
-#     except WebSocketDisconnect:
-#         active_connections.remove(websocket)
