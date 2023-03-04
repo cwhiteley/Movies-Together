@@ -103,7 +103,8 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         while True:
             data = await websocket.receive_text()
+            message = json.loads(data)
             for connection in active_connections:
-                await connection.send_text(f"Message text was: {data} \n")
+                await connection.send_text(f"User_{message['user']}: {message['data']}")
     except WebSocketDisconnect:
         active_connections.remove(websocket)

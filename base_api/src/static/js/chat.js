@@ -13,7 +13,11 @@ socket_chat.onmessage = function(event) {
 };
 function sendMessage(event) {
     var input = document.getElementById("messageText")
-    socket_chat.send(input.value)
+    const message = {
+        data: input.value,
+        user: randomUserName
+    };
+    socket_chat.send(JSON.stringify(message))
     input.value = ''
     event.preventDefault()
 }
