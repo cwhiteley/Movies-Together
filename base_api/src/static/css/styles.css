@@ -23,7 +23,9 @@
 }
 
 .chat-box {
+    position: relative;
     width: 25%;
+    height: 80%;
     background-color: white;
     padding: 20px;
     border-radius: 10px;
@@ -31,12 +33,13 @@
 }
 
 .chat-box h2 {
+    text-align: center;
     font-size: 24px;
     margin-bottom: 20px;
     color: #333;
 }
 
-.chat-box .messages {
+.chat-box #messages {
     height: 300px;
     overflow-y: scroll;
     margin-bottom: 20px;
@@ -57,8 +60,16 @@
     color: #333;
 }
 
+.chat-box #create_message{
+    width: 90%;
+    display: inline;
+    position: absolute;
+    bottom: 10px;
+}
+
 .chat-box input[type="text"] {
     width: 70%;
+    height: 20px;
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -66,8 +77,10 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
-.chat-box button[type="submit"] {
-    padding: 10px;
+.chat-box button[type="button"] {
+    padding: 5px;
+    width: 20%;
+    height: 40px;
     border: none;
     background-color: #4CAF50;
     color: white;
@@ -76,6 +89,6 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
-.chat-box button[type="submit"]:hover {
+.chat-box button[type="button"]:hover {
     background-color: #3e8e41;
 }
