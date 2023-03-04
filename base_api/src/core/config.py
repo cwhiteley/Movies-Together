@@ -13,6 +13,18 @@ class BaseApi(BaseSettings):
     port: int
 
 
+class ChatService(BaseSettings):
+    project_name: str
+    host: str
+    port: int
+
+
+class VideoService(BaseSettings):
+    project_name: str
+    host: str
+    port: int
+
+
 class Redis(BaseSettings):
     host: str
     port: int
@@ -20,6 +32,8 @@ class Redis(BaseSettings):
 
 class Settings(BaseSettings):
     base_api: BaseApi
+    chat_service: ChatService
+    video_service: VideoService
     redis: Redis
 
     class Config:

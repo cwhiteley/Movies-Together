@@ -3,6 +3,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from services.groups import GroupsService, get_groups_service
+from core.config import settings
 
 router = APIRouter()
 
@@ -42,10 +43,10 @@ async def path(
         "index.html",
         {
             "request": request,
-            "host": "localhost",
-            "host_chat": "localhost",
-            "port_chat": "8001",
-            "port": "8002",
+            "video_host": settings.video_service.host,
+            "video_port": settings.video_service.port,
+            "chat_host": settings.chat_service.host,
+            "chat_port": settings.chat_service.port,
             "path_video_socket": f"/api/v1/groups/ws/video/{link_id}",
             "path_chat_socket": f"/api/v1/groups/ws/chat/{link_id}",
             "film_id": f"{film_id}",

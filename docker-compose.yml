@@ -8,6 +8,19 @@ services:
       - "6379:6379"
     restart: always
 
+#  base_api:
+#    build:
+#      context: ./base_api
+#      dockerfile: Dockerfile
+#    image: base_api:latest
+#    container_name: base_api
+#    depends_on:
+#      - cache
+#    ports:
+#      - "8000:8000"
+#    env_file:
+#      - ./.env
+
   chat_service:
     build:
       context: ./chat_service

@@ -1,7 +1,7 @@
-const host_chat = document.getElementById("host_chat").textContent;
-const port_chat = document.getElementById("port_chat").textContent;
+const chat_host = document.getElementById("chat_host").textContent;
+const chat_port = document.getElementById("chat_port").textContent;
 const path_chat_socket = document.getElementById("path_chat_socket").textContent;
-const socket_chat = new WebSocket("ws://"+host_chat+':'+ port_chat + path_chat_socket);
+const socket_chat = new WebSocket("ws://"+chat_host+':'+ chat_port + path_chat_socket);
 const randomUserName_chat = Math.random().toString(36).substring(7);
 
 socket_chat.onmessage = function(event) {
