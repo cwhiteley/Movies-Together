@@ -7,3 +7,38 @@ services:
     ports:
       - "6379:6379"
     restart: always
+
+#  base_api:
+#    build:
+#      context: ./base_api
+#      dockerfile: Dockerfile
+#    image: base_api:latest
+#    container_name: base_api
+#    depends_on:
+#      - cache
+#    ports:
+#      - "8000:8000"
+#    env_file:
+#      - ./.env
+
+  chat_service:
+    build:
+      context: ./chat_service
+      dockerfile: Dockerfile
+    image: chat_service:latest
+    container_name: chat_service
+    ports:
+      - "8001:8001"
+    env_file:
+      - ./.env
+
+  video_service:
+    build:
+      context: ./video_service
+      dockerfile: Dockerfile
+    image: video_service:latest
+    container_name: video_service
+    ports:
+      - "8002:8002"
+    env_file:
+      - ./.env

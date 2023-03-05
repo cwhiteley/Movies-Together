@@ -1,8 +1,8 @@
 const player = videojs('my-video');
-const host = document.getElementById("host").textContent;
-const port = document.getElementById("port").textContent;
+const video_host = document.getElementById("video_host").textContent;
+const video_port = document.getElementById("video_port").textContent;
 const path_video_socket = document.getElementById("path_video_socket").textContent;
-const socket = new WebSocket("ws://"+host+':'+port+path_video_socket);
+const socket = new WebSocket("ws://"+video_host+":"+video_port+path_video_socket);
 const randomUserName = Math.random().toString(36).substring(7);
 let lastTime = player.currentTime();
 let paused = true;

@@ -6,9 +6,12 @@
     <link href="{{ url_for('static', path='/css/styles.css') }}" rel="stylesheet">
 
     <script src="https://vjs.zencdn.net/8.0.4/video.min.js"></script>
-    <div id="host" style="display:none;">{{ host }}</div>
-    <div id="port" style="display:none;">{{ port }}</div>
+    <div id="video_host" style="display:none;">{{ video_host }}</div>
+    <div id="video_port" style="display:none;">{{ video_port }}</div>
+    <div id="chat_host" style="display:none;">{{ chat_host }}</div>
+    <div id="chat_port" style="display:none;">{{ chat_port }}</div>
     <div id="path_video_socket" style="display:none;">{{ path_video_socket }}</div>
+    <div id="path_chat_socket" style="display:none;">{{ path_chat_socket }}</div>
 <!--    <div id="path_web_socket" style="display:none;">{{ path_web_socket }}</div>-->
 </head>
 <body>
@@ -35,24 +38,16 @@
 
     <div class="chat-box">
         <h2>Chat</h2>
-        <div class="messages">
-            <div class="message">
-                <span class="user">User1:</span>
-                <span class="text">Hi there!</span>
-            </div>
-            <div class="message">
-                <span class="user">User2:</span>
-                <span class="text">Hello!</span>
-            </div>
+        <div id="messages">
             <!-- Add more messages here -->
         </div>
-        <form>
-            <input type="text" placeholder="Type your message...">
-            <button type="submit">Send</button>
+        <form id="create_message">
+            <input id="messageText" type="text" placeholder="Type your message...">
+            <button type="button" onclick="sendMessageChat(event)">Send</button>
         </form>
     </div>
 </div>
-
 <script src="{{ url_for('static', path='/js/video.js') }}"></script>
+<script src="{{ url_for('static', path='/js/chat.js') }}"></script>
 </body>
 </html>

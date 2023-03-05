@@ -1,11 +1,9 @@
-import json
-
-import fastapi
-from fastapi import APIRouter, Depends, Request, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, Depends, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from services.groups import GroupsService, get_groups_service
+from core.config import settings
 
 router = APIRouter()
 
@@ -45,51 +43,12 @@ async def path(
         "index.html",
         {
             "request": request,
-            "host": "localhost",
-            "port": "8000",
-            "path_video_socket": f"/api/v1/groups/ws/{link_id}",
+            "video_host": settings.video_service.host,
+            "video_port": settings.video_service.port,
+            "chat_host": settings.chat_service.host,
+            "chat_port": settings.chat_service.port,
+            "path_video_socket": f"/api/v1/groups/ws/video/{link_id}",
+            "path_chat_socket": f"/api/v1/groups/ws/chat/{link_id}",
             "film_id": f"{film_id}",
         },
     )
-
-
-clients = []
-active_connections = set()
-
-
-@router.websocket("/ws/{link_id}")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    active_connections.add(websocket)
-    try:
-        while True:
-            message = await websocket.receive_text()
-            message_data = json.loads(message)
-
-            if message_data["event_name"] == "play":
-                for connection in active_connections:
-                    await connection.send_text(
-                        json.dumps({"event_name": "play", "user": message_data["user"]})
-                    )
-
-            elif message_data["event_name"] == "pause":
-                for connection in active_connections:
-                    await connection.send_text(
-                        json.dumps(
-                            {"event_name": "pause", "user": message_data["user"]}
-                        )
-                    )
-
-            elif message_data["event_name"] == "change_time":
-                for connection in active_connections:
-                    await connection.send_text(
-                        json.dumps(
-                            {
-                                "event_name": "change_time",
-                                "time": message_data["time"],
-                                "user": message_data["user"],
-                            }
-                        )
-                    )
-    except WebSocketDisconnect:
-        active_connections.remove(websocket)
