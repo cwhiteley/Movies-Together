@@ -6,8 +6,8 @@ import redis as redis_bibl
 import uvicorn
 from api.v1 import groups, stream
 from core.config import settings
-from db import redis
-from fastapi import FastAPI
+from db import redis_cache
+from fastapi import FastAPI, Request
 from fastapi.responses import ORJSONResponse
 from fastapi.staticfiles import StaticFiles
 from redis import asyncio as aioredis
@@ -22,7 +22,6 @@ app = FastAPI(
     default_response_class=ORJSONResponse,
 )
 
-
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
@@ -34,18 +33,18 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
     max_tries=10,
 )
 async def startup():
-    redis.redis_conn = await aioredis.Redis(
+    redis_cache.redis_conn = await aioredis.Redis(
         host=settings.redis.host, port=settings.redis.port, decode_responses=True
     )
-    await redis.redis_conn.ping()
+    await redis_cache.redis_conn.ping()
 
     logging.info("Create connections")
 
 
 @app.on_event("shutdown")
 async def shutdown():
-    if redis.redis_conn is not None:
-        await redis.redis_conn.close()
+    if redis_cache.redis_conn is not None:
+        await redis_cache.redis_conn.close()
     logging.info("Closed connections")
 
 
