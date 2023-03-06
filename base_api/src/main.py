@@ -4,13 +4,14 @@ import logging
 import backoff
 import redis as redis_bibl
 import uvicorn
-from api.v1 import groups, stream
+from api.v1 import groups, stream, search
 from core.config import settings
 from db import redis_cache
 from fastapi import FastAPI, Request
 from fastapi.responses import ORJSONResponse
 from fastapi.staticfiles import StaticFiles
 from redis import asyncio as aioredis
+from fastapi.middleware.cors import CORSMiddleware
 
 logging.basicConfig(level=logging.INFO)
 
@@ -50,6 +51,7 @@ async def shutdown():
 
 app.include_router(groups.router, prefix="/api/v1/groups", tags=["Group views"])
 app.include_router(stream.router, prefix="/api/v1/stream", tags=["Stream film"])
+app.include_router(search.router, prefix="/api/v1/movies", tags=["Search film"])
 
 if __name__ == "__main__":
     uvicorn.run(

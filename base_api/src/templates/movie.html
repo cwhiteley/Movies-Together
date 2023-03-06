@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ movie['title'] }}</title>
+    <link href="{{ url_for('static', path='/css/movies.css') }}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9e1776906e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <h1 class="logo">Movie Search</h1>
+        <div class="buttons">
+            <div class="play-button"><i class="fas fa-play"></i> Play</div>
+            <div class="together-button"><i class="fas fa-users"></i> Together</div>
+        </div>
+    </header>
+    <main class="main">
+        <div class="poster">
+            <img src="{{ poster }}" alt="">
+        </div>
+        <div class="details">
+            <h2 class="title">{{ movie['title'] }}</h2>
+            <p class="tagline">{{ movie['tagline'] }}</p>
+            <div class="info">
+                <div class="info-item"><i class="fas fa-star"></i> {{ movie['rating'] }}</div>
+                <div class="info-item"><i class="fas fa-film"></i> {{ movie['genres'][0] }}</div>
+                <div class="info-item"><i class="fas fa-calendar-alt"></i> {{ movie['creation_date'] }}</div>
+                <div class="info-item"><i class="fas fa-clock"></i> {{ movie['runtime'] }} 2.2 Hours</div>
+                <div class="info-item"><i class="fas fa-film"></i> Actors: {{ ', '.join(movie['actors']) }}</div>
+                <div class="info-item"><i class="fas fa-pen"></i> Writers: {{ ', '.join(movie['writers']) }}</div>
+                <div class="info-item"><i class="fas fa-video"></i> Director(s): {{ ', '.join(movie['directors']) }}
+                </div>
+            </div>
+            <p class="overview">{{ movie['overview'] }}</p>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 Movie Search, Inc.</p>
+    </footer>
+    <script src="https://kit.fontawesome.com/9e1776906e.js" crossorigin="anonymous"></script>
+    <script>
+        const togetherButton = document.querySelector('.together-button');
+        const movieId = '{{ movie["id"] }}';
+        togetherButton.addEventListener('click', async () => {
+            const response = await fetch(`/api/v1/groups/${movieId}`, {
+                method: 'POST'
+            });
+
+            const data = await response.json();
+            const link = data.link;
+
+            const swalMixin = Swal.mixin({
+                showClass: {
+                    confirmButton: 'btn btn-primary',
+                },
+                customClass: {
+                    icon: 'text-primary',
+                },
+            });
+
+            swalMixin.fire({
+                title: `"{{movie['title']}}"`,
+                html: `Here's the link to watch together: <a href="http://localhost:8000/api/v1/groups/view/${link}">Link</a>`,
+                icon: 'success',
+                confirmButtonText: 'Copy Link',
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const linkElement = document.createElement('textarea');
+                    linkElement.value = `http://localhost:8000/api/v1/groups/view/${link}`;
+                    document.body.appendChild(linkElement);
+                    linkElement.select();
+                    document.execCommand('copy');
+                    linkElement.remove();
+                    Swal.fire({
+                        title: 'Link Copied!',
+                        icon: 'success',
+                    });
+                }
+            });
+        });
+
+        const omdb = '{{ omdb_key }}'
+        fetch(`http://www.omdbapi.com/?apikey=${omdb}c&t={{ movie['title'] }}&type=movie`)
+            .then(response => response.json())
+            .then(data => {
+                const posterUrl = data.Poster;
+                const posterImg = document.querySelector(".poster img");
+                posterImg.src = posterUrl;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+    </script>
+</div>
+</body>
+</html>

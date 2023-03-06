@@ -30,11 +30,16 @@ class Redis(BaseSettings):
     port: int
 
 
+class ApiKeys(BaseSettings):
+    omdb: str
+
+
 class Settings(BaseSettings):
     base_api: BaseApi
     chat_service: ChatService
     video_service: VideoService
     redis: Redis
+    api_keys: ApiKeys
 
     class Config:
         env_file = (
