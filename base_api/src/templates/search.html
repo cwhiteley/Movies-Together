@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Search</title>
+    <link href="{{ url_for('static', path='/css/movies.css') }}" rel="stylesheet">
+
+</head>
+<body>
+<div class="header-main">
+    <h1 class="name">Movie Search</h1>
+</div>
+<div class="search-container">
+    <form>
+        <input type="text" placeholder="Search for movies..." name="search" id="search-input">
+        <button type="submit" id="search-btn">Search</button>
+    </form>
+</div>
+<div class="cards-container"></div>
+<script>
+    const searchInput = document.getElementById("search-input");
+    const searchBtn = document.getElementById("search-btn");
+    const cardsContainer = document.querySelector(".cards-container");
+
+    searchBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const query = searchInput.value;
+        const response = await fetch(`http://127.0.0.1/api/v1/films/search?query=${query}`);
+        const results = await response.json();
+        displayResults(results);
+    });
+
+    async function displayResults(results) {
+        cardsContainer.innerHTML = "";
+        if (results['detail'] === "film_not_found") {
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.innerHTML = `<div class="card-content"><p>No results found.</p></div>`;
+            cardsContainer.appendChild(card);
+        } else {
+            for (const result of results) {
+                const card = document.createElement("div");
+                card.classList.add("card");
+                const omdb = '{{ omdb_key }}'
+                const response = await fetch(`http://www.omdbapi.com/?apikey=${omdb}c&t=${result.title}`);
+                const data = await response.json();
+                const poster = data.Poster;
+                card.innerHTML = `
+                <div class="poster">
+                    <img src="${poster}" alt="">
+                    <div class="gradient"></div>
+                </div>
+                <a href="http://127.0.0.1:8000/api/v1/movies/${result.uuid}">
+                <div class="card-content">
+                  <h2>${result.title}</h2>
+                  <p>IMDB Rating: ${result.imdb_rating}</p>
+                </div>
+                </a>
+              `;
+                // If no poster is available, show black-red gradient
+                const posterImg = card.querySelector(".poster img");
+                if (!poster || poster === "undefined") {
+                    posterImg.style.display = "none";
+                    const gradientDiv = card.querySelector(".gradient");
+                    gradientDiv.style.display = "block";
+                }
+                cardsContainer.appendChild(card);
+            }
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,12 +1,17 @@
-.video-container {
-    display: flex;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
 
+.body {
+    background-color: #141414;
+}
+
+.video-container {
+    font-family: "Montserrat", sans-serif;
+    display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #f2f2f2;
-    padding: 20px;
+    background-color: black;
+    color: white;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     height: 100vh;
 }
 
@@ -14,29 +19,30 @@
     width: 70%;
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+
 }
 
 #my-video {
-    border: 5px solid gray;
+    border: 5px solid #333333;
     border-radius: 7px;
-
 }
 
 .chat-box {
     position: relative;
     width: 25%;
     height: 80%;
-    background-color: white;
+    background-color: #121212;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    /*color: #e50914;*/
 }
 
 .chat-box h2 {
     text-align: center;
     font-size: 24px;
     margin-bottom: 20px;
-    color: #333;
+    color: #fff;
 }
 
 .chat-box #messages {
@@ -48,19 +54,21 @@
 .chat-box .message {
     display: flex;
     margin-bottom: 10px;
+    color: #e50914;
+
 }
 
 .chat-box .user {
     font-weight: bold;
     margin-right: 5px;
-    color: #666;
+    color: #fff;
 }
 
 .chat-box .text {
-    color: #333;
+    color: #fff;
 }
 
-.chat-box #create_message{
+.chat-box #create_message {
     width: 90%;
     display: inline;
     position: absolute;
@@ -75,6 +83,8 @@
     border-radius: 5px;
     margin-right: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    background-color: #121212;
 }
 
 .chat-box button[type="button"] {
@@ -82,7 +92,7 @@
     width: 20%;
     height: 40px;
     border: none;
-    background-color: #4CAF50;
+    background-color: #e50914;;
     color: white;
     border-radius: 5px;
     cursor: pointer;
@@ -90,5 +100,110 @@
 }
 
 .chat-box button[type="button"]:hover {
-    background-color: #3e8e41;
+    background-color: darkred;
+}
+
+/* Small screens */
+@media only screen and (max-width: 600px) {
+    .video-container {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+    }
+
+    .video-container video {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .chat-box {
+        width: 100%;
+        height: 40%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .chat-box #messages {
+        height: 150px;
+    }
+
+    .chat-box input[type="text"] {
+        width: 60%;
+        margin-right: 10px;
+    }
+
+    .chat-box button[type="button"] {
+        width: 30%;
+        height: 30px;
+    }
+}
+
+
+/* Medium screens */
+@media only screen and (min-width: 601px) and (max-width: 960px) {
+    .video-container {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+    }
+
+    .video-container video {
+        width: 80%;
+        margin-bottom: 10px;
+    }
+
+    .chat-box {
+        width: 100%;
+        height: 60%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .chat-box #messages {
+        height: 200px;
+    }
+
+    .chat-box input[type="text"] {
+        width: 60%;
+        margin-right: 10px;
+    }
+
+    .chat-box button[type="button"] {
+        width: 30%;
+        height: 40px;
+    }
+}
+
+/* Large screens */
+@media only screen and (min-width: 961px) {
+    .video-container {
+        height: 100vh;
+        padding: 20px;
+    }
+
+    .video-container video {
+        width: 70%;
+        margin-right: 10px;
+    }
+
+    .chat-box {
+        width: 25%;
+        height: 80%;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .chat-box #messages {
+        height: 300px;
+    }
+
+    .chat-box input[type="text"] {
+        width: 70%;
+        margin-right: 5px;
+    }
+
+    .chat-box button[type="button"] {
+        width: 20%;
+        height: 40px;
+    }
 }

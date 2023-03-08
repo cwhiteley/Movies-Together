@@ -4,13 +4,14 @@ import logging
 import backoff
 import redis as redis_bibl
 import uvicorn
-from api.v1 import groups, stream
+from api.v1 import groups, stream, search
 from core.config import settings
-from db import redis
-from fastapi import FastAPI
+from db import redis_cache
+from fastapi import FastAPI, Request
 from fastapi.responses import ORJSONResponse
 from fastapi.staticfiles import StaticFiles
 from redis import asyncio as aioredis
+from fastapi.middleware.cors import CORSMiddleware
 
 logging.basicConfig(level=logging.INFO)
 
@@ -21,7 +22,6 @@ app = FastAPI(
     openapi_url="/api/openapi.json",
     default_response_class=ORJSONResponse,
 )
-
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -34,23 +34,24 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
     max_tries=10,
 )
 async def startup():
-    redis.redis_conn = await aioredis.Redis(
+    redis_cache.redis_conn = await aioredis.Redis(
         host=settings.redis.host, port=settings.redis.port, decode_responses=True
     )
-    await redis.redis_conn.ping()
+    await redis_cache.redis_conn.ping()
 
     logging.info("Create connections")
 
 
 @app.on_event("shutdown")
 async def shutdown():
-    if redis.redis_conn is not None:
-        await redis.redis_conn.close()
+    if redis_cache.redis_conn is not None:
+        await redis_cache.redis_conn.close()
     logging.info("Closed connections")
 
 
 app.include_router(groups.router, prefix="/api/v1/groups", tags=["Group views"])
 app.include_router(stream.router, prefix="/api/v1/stream", tags=["Stream film"])
+app.include_router(search.router, prefix="/api/v1/movies", tags=["Search film"])
 
 if __name__ == "__main__":
     uvicorn.run(
