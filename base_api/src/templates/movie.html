@@ -86,8 +86,10 @@
             });
         });
 
-        const omdb = '{{ omdb_key }}'
-        fetch(`http://www.omdbapi.com/?apikey=${omdb}c&t={{ movie['title'] }}&type=movie`)
+        const omdb = '{{ omdb_key }}';
+        const movieTitle = '{{ movie['title'] }}';
+        console.log(movieTitle);
+        fetch(`http://www.omdbapi.com/?apikey=${omdb}&t=${movieTitle}`)
             .then(response => response.json())
             .then(data => {
                 const posterUrl = data.Poster;

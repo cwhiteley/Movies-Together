@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link href="{{ url_for('static', path='/css/auth.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+<div class="container">
+    <form>
+        <h1>Sign In</h1>
+        <input name="login" type="text" placeholder="Login" required>
+        <input name="password" type="password" placeholder="Password" required>
+        <p>New in Movie Search? <a href="{{ url_for('register') }}">Sign up now.</a></p>
+        <button type="submit">Sign In</button>
+    </form>
+</div>
+<script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();  // prevent the form from submitting normally
+
+        const formData = new FormData(form);
+        const body = {
+            login: formData.get('login'),
+            password: formData.get('password')
+        };
+
+        const response = await fetch('http://127.0.0.1:80/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // handle successful login
+            const refreshToken = data.refresh_token;
+            const accessToken = data.access_token;
+
+            localStorage.setItem('access_token', accessToken);
+            localStorage.setItem('refresh_token', refreshToken);
+
+            window.location.href = 'http://localhost:8000/api/v1/movies';
+        } else {
+            // handle login error
+            console.error('Login failed.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Invalid login or password!',
+                confirmButtonColor: '#d33',
+
+            });
+        }
+    });
+
+</script>
+</body>
+</html>

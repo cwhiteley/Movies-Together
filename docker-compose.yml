@@ -18,18 +18,18 @@ services:
     env_file:
       - ./.env
 
-  base_api:
-    build:
-      context: ./base_api
-      dockerfile: Dockerfile
-    image: base_api:latest
-    container_name: base_api
-    depends_on:
-      - cache
-    ports:
-      - "8000:8000"
-    env_file:
-      - ./.env
+  #  base_api:
+  #    build:
+  #      context: ./base_api
+  #      dockerfile: Dockerfile
+  #    image: base_api:latest
+  #    container_name: base_api
+  #    depends_on:
+  #      - cache
+  #    ports:
+  #      - "8000:8000"
+  #    env_file:
+  #      - ./.env
 
   chat_service:
     build:
@@ -43,7 +43,6 @@ services:
       - ./.env
     restart: always
 
-
   video_service:
     build:
       context: ./video_service
@@ -56,8 +55,8 @@ services:
       - ./.env
     restart: always
 
-
   es01:
+    hostname: ${ELASTIC__HOST}
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
     container_name: es01
     environment:
@@ -94,6 +93,7 @@ services:
     restart: always
 
   movies_db:
+    hostname: ${POSTGRES_MOVIES__HOST}
     image: postgres:15.0-alpine
     volumes:
       - ./postgres_data:/var/lib/postgresql/data/
@@ -101,7 +101,7 @@ services:
       - .env
     restart: always
     expose:
-      - "5433"
+      - ${POSTGRES_MOVIES__PORT}
     environment:
       - POSTGRES_USER=${POSTGRES_MOVIES__USER}
       - POSTGRES_PASSWORD=${POSTGRES_MOVIES__PASSWORD}
@@ -109,31 +109,63 @@ services:
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
 
-
   admin_panel:
+    env_file:
+      - ./.env
+    hostname: ${DJANGO__HOST}
     container_name: admin_panel
     build: admin_panel
     restart: always
     expose:
-      - "8004"
-    env_file:
-      - ./.env
+      - ${DJANGO__PORT}
     depends_on:
       movies_db:
         condition: service_healthy
 
   etl:
+    env_file:
+      - ./.env
     container_name: etl
     build: ./etl
     command: python load_data.py
+    expose:
+      - ${ETL__PORT}
     depends_on:
       es01:
         condition: service_healthy
-    env_file:
-      - ./.env
     restart: always
 
+  auth_db:
+    hostname: auth_db
+    image: postgres:15.0-alpine
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_USER=${POSTGRES_AUTH__USER}
+      - POSTGRES_PASSWORD=${POSTGRES_AUTH__PASSWORD}
+      - POSTGRES_DB=${POSTGRES_AUTH__DBNAME}
+    expose:
+      - ${POSTGRES_AUTH__PORT}
 
+  auth_service:
+    hostname: ${AUTH_SERVICE__HOST}
+    build: auth_service
+    depends_on:
+      - auth_db
+    restart: always
+    expose:
+      - ${AUTH_SERVICE__PORT}
+    env_file:
+      - ./.env
+    command: [ "/bin/bash", "-c", "./entrypoint.sh && uwsgi --strict --ini uwsgi.ini" ]
+
+
+#  jaeger:
+#    image: jaegertracing/all-in-one:1.39.0
+#    ports:
+#      - "16686:16686"
+#    restart: always
 
 volumes:
   postgres_data: null

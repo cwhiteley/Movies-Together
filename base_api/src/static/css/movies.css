@@ -141,15 +141,6 @@ body {
     box-sizing: border-box;
 }
 
-body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    background-color: #141414;
-}
 
 .container {
     max-width: 1200px;
@@ -341,3 +332,6 @@ footer p {
 }
 
 
+.name {
+    transition: opacity 0.5s ease-in-out;
+}

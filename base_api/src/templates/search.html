@@ -10,7 +10,7 @@
     <h1 class="name">Movie Search</h1>
 </div>
 <div class="search-container">
-    <form>
+    <form autocomplete="off">
         <input type="text" placeholder="Search for movies..." name="search" id="search-input">
         <button type="submit" id="search-btn">Search</button>
     </form>
@@ -41,7 +41,8 @@
                 const card = document.createElement("div");
                 card.classList.add("card");
                 const omdb = '{{ omdb_key }}'
-                const response = await fetch(`http://www.omdbapi.com/?apikey=${omdb}c&t=${result.title}`);
+                const response = await fetch(`http://www.omdbapi.com/?apikey=${omdb}&t=${result.title}`);
+                console.log(omdb);
                 const data = await response.json();
                 const poster = data.Poster;
                 card.innerHTML = `
@@ -67,6 +68,22 @@
             }
         }
     }
+</script>
+<script>
+    const movieNames = ['The Godfather', 'The Shawshank Redemption', 'The Dark Knight', 'The Godfather: Part II', 'Forrest Gump', 'The Lord of the Rings: The Fellowship of the Ring', 'Star Wars: Episode V', 'Pulp Fiction', 'The Lord of the Rings', 'Fight Club', 'Inception', 'The Lord of the Rings', 'The Matrix', 'Goodfellas']
+    const nameElement = document.querySelector('.name');
+
+    function changeName() {
+        nameElement.style.opacity = 0;
+        setTimeout(() => {
+            const randomIndex = Math.floor(Math.random() * movieNames.length);
+            nameElement.textContent = movieNames[randomIndex];
+            nameElement.style.opacity = 1;
+        }, 500);
+    }
+
+    setInterval(changeName, 5000);
+
 </script>
 </body>
 </html>
