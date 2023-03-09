@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container">
-    <form>
+    <form autocomplete="off">
         <h1>Sign In</h1>
         <input name="login" type="text" placeholder="Login" required>
         <input name="password" type="password" placeholder="Password" required>
@@ -46,6 +46,7 @@
             localStorage.setItem('refresh_token', refreshToken);
 
             window.location.href = 'http://localhost:8000/api/v1/movies';
+            console.log('Access token: ' + accessToken, 'Refresh token: ' + refreshToken);
         } else {
             // handle login error
             console.error('Login failed.');
