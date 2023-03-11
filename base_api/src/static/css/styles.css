@@ -207,3 +207,123 @@
         height: 40px;
     }
 }
+
+@media only screen and (max-width: 600px) {
+    .body {
+        font-family: "Montserrat", sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #f5f5f1;
+        background-color: #141414;
+    }
+
+    .video-container {
+        height: auto;
+        padding: 10px;
+    }
+
+    .video-container video {
+        width: 100%;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .chat-box {
+        width: 100%;
+        height: 40%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        position: relative;
+        background-color: #121212;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-box h2 {
+        text-align: center;
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: #fff;
+    }
+
+    .chat-box #messages {
+        height: 150px;
+        overflow-y: scroll;
+        margin-bottom: 20px;
+    }
+
+    .chat-box .message {
+        display: flex;
+        margin-bottom: 10px;
+        color: #e50914;
+    }
+
+    .chat-box .user {
+        font-weight: bold;
+        margin-right: 5px;
+        color: #fff;
+    }
+
+    .chat-box .text {
+        color: #fff;
+    }
+
+    .chat-box #create_message {
+        width: 90%;
+        display: inline;
+        position: absolute;
+        bottom: 10px;
+    }
+
+    .chat-box input[type="text"] {
+        width: 60%;
+        height: 20px;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        margin-right: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        color: #fff;
+        background-color: #121212;
+    }
+
+    .chat-box button[type="button"] {
+        padding: 5px;
+        width: 30%;
+        height: 30px;
+        border: none;
+        background-color: #e50914;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .chat-box button[type="button"]:hover {
+        background-color: darkred;
+    }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 960px) {
+    .body {
+        font-family: "Montserrat", sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #f5f5f1;
+        background-color: #141414;
+    }
+
+    .video-container {
+        height: auto;
+        padding: 10px;
+    }
+
+    .video-container video {
+        width: 80%;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+}

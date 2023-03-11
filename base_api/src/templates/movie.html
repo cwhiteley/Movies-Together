@@ -7,6 +7,8 @@
     <script src="https://kit.fontawesome.com/9e1776906e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
 
 
 </head>
@@ -53,6 +55,7 @@
 
             const data = await response.json();
             const link = data.link;
+            const serverHost = '{{ server_host }}';
 
             const swalMixin = Swal.mixin({
                 showClass: {
@@ -65,7 +68,7 @@
 
             swalMixin.fire({
                 title: `"{{movie['title']}}"`,
-                html: `Here's the link to watch together: <a href="http://localhost:8000/api/v1/groups/view/${link}">Link</a>`,
+                html: `Here's the link to watch together: <a href="http://${serverHost}:8000/api/v1/groups/view/${link}">Link</a>`,
                 icon: 'success',
                 confirmButtonText: 'Copy Link',
                 showCancelButton: true,
@@ -73,7 +76,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     const linkElement = document.createElement('textarea');
-                    linkElement.value = `http://localhost:8000/api/v1/groups/view/${link}`;
+                    linkElement.value = `http://${serverHost}:8000/api/v1/groups/view/${link}`;
                     document.body.appendChild(linkElement);
                     linkElement.select();
                     document.execCommand('copy');
@@ -87,7 +90,9 @@
         });
 
         const omdb = '{{ omdb_key }}';
-        const movieTitle = '{{ movie['title'] }}';
+        const movieTitle = '{{ movie['
+        title
+        '] }}';
         console.log(movieTitle);
         fetch(`http://www.omdbapi.com/?apikey=${omdb}&t=${movieTitle}`)
             .then(response => response.json())

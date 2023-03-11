@@ -20,7 +20,7 @@ templates = Jinja2Templates(directory="templates")
     response_description="Return link to stream.",
 )
 async def path(
-        film_id: str, service: GroupsService = Depends(get_groups_service)
+    film_id: str, service: GroupsService = Depends(get_groups_service)
 ) -> JSONResponse:
     link = await service.create_chat(film_id=film_id, user_id="user")
     return JSONResponse(content={"link": link}, status_code=200)
@@ -33,8 +33,8 @@ async def path(
     response_description="Return status.",
 )
 async def path(
-        link_id: str, request: Request, service: GroupsService = Depends(get_groups_service)
-) -> JSONResponse:
+    link_id: str, request: Request, service: GroupsService = Depends(get_groups_service)
+):
     data = await service.get_data_from_cache(link_id)
     print(data)
     film_id = data.get("film_id")
@@ -54,5 +54,6 @@ async def path(
             "path_video_socket": f"/api/v1/groups/ws/video/{link_id}",
             "path_chat_socket": f"/api/v1/groups/ws/chat/{link_id}",
             "film_id": f"{film_id}",
+            "server_host": settings.server_host,
         },
     )

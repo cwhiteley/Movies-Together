@@ -35,6 +35,7 @@ class ApiKeys(BaseSettings):
 
 
 class Settings(BaseSettings):
+    server_host: str
     base_api: BaseApi
     chat_service: ChatService
     video_service: VideoService

@@ -3,6 +3,8 @@
 <head>
     <title>Movie Search</title>
     <link href="{{ url_for('static', path='/css/movies.css') }}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
 
 </head>
 <body>
@@ -20,11 +22,12 @@
     const searchInput = document.getElementById("search-input");
     const searchBtn = document.getElementById("search-btn");
     const cardsContainer = document.querySelector(".cards-container");
+    const serverHost = '{{ server_host }}';
 
     searchBtn.addEventListener("click", async (e) => {
         e.preventDefault();
         const query = searchInput.value;
-        const response = await fetch(`http://127.0.0.1/api/v1/films/search?query=${query}`);
+        const response = await fetch(`http://${serverHost}/api/v1/films/search?query=${query}`);
         const results = await response.json();
         displayResults(results);
     });
@@ -50,7 +53,7 @@
                     <img src="${poster}" alt="">
                     <div class="gradient"></div>
                 </div>
-                <a href="http://127.0.0.1:8000/api/v1/movies/${result.uuid}">
+                <a href="http://${serverHost}:8000/api/v1/movies/${result.uuid}">
                 <div class="card-content">
                   <h2>${result.title}</h2>
                   <p>IMDB Rating: ${result.imdb_rating}</p>
@@ -70,7 +73,7 @@
     }
 </script>
 <script>
-    const movieNames = ['The Godfather', 'The Shawshank Redemption', 'The Dark Knight', 'The Godfather: Part II', 'Forrest Gump', 'The Lord of the Rings: The Fellowship of the Ring', 'Star Wars: Episode V', 'Pulp Fiction', 'The Lord of the Rings', 'Fight Club', 'Inception', 'The Lord of the Rings', 'The Matrix', 'Goodfellas']
+    const movieNames = ['The Godfather', 'The Dark Knight', 'The Godfather', 'Forrest Gump', 'Star Wars', 'Pulp Fiction', 'The Lord of the Rings', 'Fight Club', 'Inception', 'The Matrix', 'Goodfellas']
     const nameElement = document.querySelector('.name');
 
     function changeName() {

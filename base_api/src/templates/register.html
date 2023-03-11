@@ -5,6 +5,7 @@
     <link href="{{ url_for('static', path='/css/auth.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
 <body>
@@ -26,6 +27,7 @@
     form.addEventListener('submit', async (event) => {
         event.preventDefault();  // prevent the form from submitting normally
 
+        const serverHost = '{{ server_host }}';
         const formData = new FormData(form);
         const body = {
             login: formData.get('login'),
@@ -36,7 +38,8 @@
         };
         console.log(body)
 
-        const response = await fetch('http://127.0.0.1:80/api/register', {
+        console.log(serverHost)
+        const response = await fetch('http://' + serverHost + ':80/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -62,7 +65,7 @@
 
             if (result.isConfirmed) {
                 // redirect to login page
-                window.location.href = 'http://localhost:8000/api/v1/login';
+                window.location.href = 'http://' + serverHost + ':8000/api/v1/login';
             } else {
                 // continue with registration
                 form.reset();
