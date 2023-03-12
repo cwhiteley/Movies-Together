@@ -10,21 +10,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-
 </head>
 <body>
 <div class="container">
     <header class="header">
-        <h1 class="logo">Movie Search</h1>
-        <div class="buttons">
-            <div class="play-button"><i class="fas fa-play"></i> Play</div>
-            <div class="together-button"><i class="fas fa-users"></i> Together</div>
-        </div>
+        <h1 class="logo_name">Movie Search</h1>
+
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="{{ url_for('Search') }}">Movies</a></li>
+                <li><a href="#">TV Shows</a></li>
+                <li><a href="#">My Account</a></li>
+            </ul>
+        </nav>
     </header>
     <main class="main">
         <div class="poster">
             <img src="{{ poster }}" alt="">
         </div>
+
         <div class="details">
             <h2 class="title">{{ movie['title'] }}</h2>
             <p class="tagline">{{ movie['tagline'] }}</p>
@@ -36,6 +41,10 @@
                 <div class="info-item"><i class="fas fa-film"></i> Actors: {{ ', '.join(movie['actors']) }}</div>
                 <div class="info-item"><i class="fas fa-pen"></i> Writers: {{ ', '.join(movie['writers']) }}</div>
                 <div class="info-item"><i class="fas fa-video"></i> Director(s): {{ ', '.join(movie['directors']) }}
+                </div>
+                <div class="buttons">
+                    <div class="play-button"><i class="fas fa-play"></i> Play</div>
+                    <div class="together-button"><i class="fas fa-users"></i> Together</div>
                 </div>
             </div>
             <p class="overview">{{ movie['overview'] }}</p>
@@ -90,9 +99,7 @@
         });
 
         const omdb = '{{ omdb_key }}';
-        const movieTitle = '{{ movie['
-        title
-        '] }}';
+        const movieTitle = '{{ movie["title"] }}';
         console.log(movieTitle);
         fetch(`http://www.omdbapi.com/?apikey=${omdb}&t=${movieTitle}`)
             .then(response => response.json())
@@ -107,5 +114,6 @@
 
     </script>
 </div>
+<script src="{{ url_for('static', path='/js/refresh_token.js') }}"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@
     <link href="{{ url_for('static', path='/css/auth.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
 </head>
 <body>
 <div class="container">
@@ -44,10 +44,28 @@
             const refreshToken = data.refresh_token;
             const accessToken = data.access_token;
 
-            localStorage.setItem('access_token', accessToken);
-            localStorage.setItem('refresh_token', refreshToken);
+            const d2 = new Date();
+            const d = new Date();
 
-            window.location.href = 'http://' + serverHost + ':8000/api/v1/movies';
+            d.setTime(d.getTime() + (100 * 60 * 1000));
+            d2.setTime(d2.getTime() + (1000 * 60 * 1000));
+
+            document.cookie = `access_token=${accessToken};expires=${d.toUTCString()}`;
+            document.cookie = `refresh_token=${refreshToken};expires=${d.toUTCString()}`;
+
+            // create a button element with a click event listener and rainbow background
+            const button = document.createElement('button');
+            button.innerText = 'Go to Movies';
+            button.classList.add('new-btn');
+            button.type = 'button'; // change the button type to "button"
+            button.addEventListener('click', () => {
+                window.location.href = 'http://' + serverHost + ':8000/api/v1/movies'; // redirect to /movies
+            });
+
+            // remove the old button and add the new button to the page
+            const signInButton = document.querySelector('button[type="submit"]');
+            signInButton.parentNode.replaceChild(button, signInButton);
+
             console.log('Access token: ' + accessToken, 'Refresh token: ' + refreshToken);
         } else {
             // handle login error

@@ -1,10 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Movie Site</title>
+    <link href="{{ url_for('static', path='/css/errors.css') }}" rel="stylesheet">
+
 </head>
 <body>
-$END$
+<header>
+    <h1 class="logo_name">Movie Search</h1>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="{{ url_for('Search') }}">Movies</a></li>
+            <li><a href="#">TV Shows</a></li>
+            <li><a href="#">My Account</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <section class="hero">
+        <div class="hero-image">
+            <img src="https://media.giphy.com/media/1zKx06Wnvu8Bw/giphy.gif" alt="Movie Gif">
+        </div>
+        <div class="hero-message">
+            <h2>Welcome to Movie Search</h2>
+            <p>Please log in to access all our content.</p>
+        </div>
+    </section>
+</main>
 </body>
 </html>

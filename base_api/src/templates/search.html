@@ -4,10 +4,19 @@
     <title>Movie Search</title>
     <link href="{{ url_for('static', path='/css/movies.css') }}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
 </head>
 <body>
+<header>
+    <h1 class="logo_name">Movie Search</h1>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="{{ url_for('Search') }}">Movies</a></li>
+            <li><a href="#">TV Shows</a></li>
+            <li><a href="#">My Account</a></li>
+        </ul>
+    </nav>
+</header>
 <div class="header-main">
     <h1 class="name">Movie Search</h1>
 </div>
@@ -88,5 +97,6 @@
     setInterval(changeName, 5000);
 
 </script>
+<script src="{{ url_for('static', path='/js/refresh_token.js') }}"></script>
 </body>
 </html>
