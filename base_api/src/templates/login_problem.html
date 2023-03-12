@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Movie Site</title>
     <link href="{{ url_for('static', path='/css/errors.css') }}" rel="stylesheet">
-
 </head>
 <body>
 <header>
@@ -25,7 +24,9 @@
         </div>
         <div class="hero-message">
             <h2>Welcome to Movie Search</h2>
-            <p>Please log in to access all our content.</p>
+            <p>Unlock the full potential content by <a class="login-link" href="{{ url_for('login') }}">joining our
+                community</a> today!</p>
+
         </div>
     </section>
 </main>
