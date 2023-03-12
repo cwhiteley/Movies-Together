@@ -1,17 +1,18 @@
-import json
 import logging
 
 import backoff
 import redis as redis_bibl
 import uvicorn
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import ORJSONResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from redis import asyncio as aioredis
+
 from api.v1 import groups, stream, search, auth
 from core.config import settings
 from db import redis_cache
-from fastapi import FastAPI, Request
-from fastapi.responses import ORJSONResponse
-from fastapi.staticfiles import StaticFiles
-from redis import asyncio as aioredis
-from fastapi.middleware.cors import CORSMiddleware
 
 logging.basicConfig(level=logging.INFO)
 
@@ -22,6 +23,7 @@ app = FastAPI(
     openapi_url="/api/openapi.json",
     default_response_class=ORJSONResponse,
 )
+templates = Jinja2Templates(directory="templates")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -49,6 +51,23 @@ async def shutdown():
     logging.info("Closed connections")
 
 
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request, exc):
+    if exc.status_code == 401:
+        return templates.TemplateResponse("login_problem.html", {"request": request})
+    return exc
+
+
 app.include_router(groups.router, prefix="/api/v1/groups", tags=["Group views"])
 app.include_router(stream.router, prefix="/api/v1/stream", tags=["Stream film"])
 app.include_router(search.router, prefix="/api/v1/movies", tags=["Search film"])
@@ -57,7 +76,7 @@ app.include_router(auth.router, prefix="/api/v1", tags=["Auth"])
 if __name__ == "__main__":
     uvicorn.run(
         "main:app",
-        host='0.0.0.0',
+        host="0.0.0.0",
         # host=settings.base_api.host,
         port=settings.base_api.port,
         reload=True,
