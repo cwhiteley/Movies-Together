@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+
 body {
     margin: 0;
     padding: 0;
@@ -37,7 +40,24 @@ input {
     font-size: 16px;
 }
 
+.new-btn {
+    background-image: linear-gradient(to right, black, #e50914);
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-size: 200% auto;
+    transition: background-position 1s ease;
+}
+
+.new-btn:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    background-position: right center;
+}
+
 button {
+    transition: all 1s ease-in-out;
     width: 100%;
     background-color: #e50914;
     color: #fff;
@@ -74,6 +94,10 @@ p {
     }
 
     button {
+        font-size: 14px;
+    }
+
+    new-btn {
         font-size: 14px;
     }
 }

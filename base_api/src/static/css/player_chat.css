@@ -3,14 +3,14 @@
 body {
     font-family: "Montserrat", sans-serif;
 
-    background-color: black;
+    background-color: #121212;
 }
 
 .video-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: black;
+    background-color: #121212;
     color: white;
     border-radius: 10px;
     height: 100vh;
@@ -32,7 +32,8 @@ body {
     position: relative;
     width: 25%;
     height: 80%;
-    background-color: #121212;
+        background-color: black;
+
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -173,6 +174,7 @@ body {
         width: 30%;
         height: 40px;
     }
+
 }
 
 /* Large screens */
