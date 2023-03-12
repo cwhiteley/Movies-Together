@@ -69,3 +69,36 @@ nav a:hover {
     font-size: 1.5rem;
     color: #fff;
 }
+
+.login-link {
+    text-decoration: none;
+    background: linear-gradient(to right, #e50914, #4f0000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    transition: background 3s ease-in-out;
+}
+
+.login-link:hover {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: flicker 3s linear infinite;
+}
+
+@keyframes flicker {
+    0% {
+        opacity: 1;
+    }
+    25% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    75% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 1;
+    }
+}
