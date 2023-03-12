@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from fastapi.responses import FileResponse
+from core.config import ROOT_PATH
 
 router = APIRouter()
 
@@ -12,6 +13,5 @@ router = APIRouter()
 )
 async def stream_video(film_id: str):
     # TODO сделать получение расположения фильма из базы
-    video_file_path = f"static/videos/{film_id}.mp4"
-    # video_file_path = f"./src/static/videos/{film_id}.mp4"
+    video_file_path = f"{ROOT_PATH}static/videos/{film_id}.mp4"
     return FileResponse(video_file_path, media_type="video/mp4")

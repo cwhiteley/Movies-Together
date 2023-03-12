@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 
 import backoff
 import redis as redis_bibl
@@ -11,6 +12,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import ORJSONResponse
 from fastapi.staticfiles import StaticFiles
 from redis import asyncio as aioredis
+from core.config import ROOT_PATH
 from fastapi.middleware.cors import CORSMiddleware
 
 logging.basicConfig(level=logging.INFO)
@@ -23,8 +25,7 @@ app = FastAPI(
     default_response_class=ORJSONResponse,
 )
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
-# app.mount("/static", StaticFiles(directory="./src/static"), name="static")
+app.mount("/static", StaticFiles(directory=f"{ROOT_PATH}static"), name="static")
 
 
 @app.on_event("startup")
@@ -58,7 +59,7 @@ app.include_router(auth.router, prefix="/api/v1", tags=["Auth"])
 if __name__ == "__main__":
     uvicorn.run(
         "main:app",
-        host='0.0.0.0',
+        host="0.0.0.0",
         # host=settings.base_api.host,
         port=settings.base_api.port,
         reload=True,

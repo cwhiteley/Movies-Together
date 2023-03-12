@@ -41,6 +41,7 @@ class Settings(BaseSettings):
     video_service: VideoService
     redis: Redis
     api_keys: ApiKeys
+    debug: str
 
     class Config:
         env_file = (
@@ -51,3 +52,8 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+if settings.debug == "True":
+    ROOT_PATH = ""
+else:
+    ROOT_PATH = "./src/"

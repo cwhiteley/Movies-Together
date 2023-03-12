@@ -16,7 +16,8 @@ class GroupsService(Redis):
         # TODO create socket server for chat
         # add information for connection to redis
         await self.set_cache(
-            key=link_key, data=dumps({"film_id": film_id, "user_id": user_id, "clients": [user_id]})
+            key=link_key,
+            data=dumps({"film_id": film_id, "user_id": user_id, "clients": [user_id]}),
         )
         return link_key
 

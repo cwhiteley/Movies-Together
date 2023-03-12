@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter, Depends, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -5,13 +6,13 @@ from fastapi.templating import Jinja2Templates
 from services.groups import GroupsService, get_groups_service
 from core.config import settings
 from starlette.responses import JSONResponse
+from core.config import ROOT_PATH
 
 # from starlette.responses import JSONResponse
 
 router = APIRouter()
 
-templates = Jinja2Templates(directory="templates")
-# templates = Jinja2Templates(directory="./src/templates")
+templates = Jinja2Templates(directory=f"{ROOT_PATH}templates")
 
 
 @router.post(
