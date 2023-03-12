@@ -5,6 +5,7 @@ import uvicorn
 from core.config import settings
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import ORJSONResponse
+from utils.user import get_user
 
 logging.basicConfig(level=logging.INFO)
 
@@ -18,16 +19,18 @@ app = FastAPI(
 
 active_connections = set()
 
+
 @app.websocket("/api/v1/groups/ws/chat/{link_id}")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
+    user = await get_user(cokies=websocket.cookies)
     active_connections.add(websocket)
     try:
         while True:
             data = await websocket.receive_text()
             message = json.loads(data)
             for connection in active_connections:
-                await connection.send_text(f"User_{message['user']}: {message['data']}")
+                await connection.send_text(f"{user}: {message['data']}")
     except WebSocketDisconnect:
         active_connections.remove(websocket)
 

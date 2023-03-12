@@ -13,4 +13,5 @@ router = APIRouter()
 async def stream_video(film_id: str):
     # TODO сделать получение расположения фильма из базы
     video_file_path = f"static/videos/{film_id}.mp4"
+    # video_file_path = f"./src/static/videos/{film_id}.mp4"
     return FileResponse(video_file_path, media_type="video/mp4")

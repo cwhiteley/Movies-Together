@@ -11,6 +11,7 @@ from starlette.responses import JSONResponse
 router = APIRouter()
 
 templates = Jinja2Templates(directory="templates")
+# templates = Jinja2Templates(directory="./src/templates")
 
 
 @router.post(
@@ -36,7 +37,6 @@ async def path(
     link_id: str, request: Request, service: GroupsService = Depends(get_groups_service)
 ):
     data = await service.get_data_from_cache(link_id)
-    print(data)
     film_id = data.get("film_id")
     if not film_id:
         return JSONResponse(
@@ -47,6 +47,7 @@ async def path(
         "index.html",
         {
             "request": request,
+            "user_owner": data.get("user_id"),
             "video_host": settings.video_service.host,
             "video_port": settings.video_service.port,
             "chat_host": settings.chat_service.host,

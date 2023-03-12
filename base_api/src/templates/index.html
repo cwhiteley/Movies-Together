@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://vjs.zencdn.net/8.0.4/video.min.js"></script>
+    <div id="user_owner" style="display:none;">{{ user_owner }}</div>
     <div id="video_host" style="display:none;">{{ video_host }}</div>
     <div id="video_port" style="display:none;">{{ video_port }}</div>
     <div id="chat_host" style="display:none;">{{ chat_host }}</div>
@@ -17,6 +18,16 @@
 </head>
 <body>
 <div class="video-container">
+    <div class="control-box">
+    <h3>Control panel</h3>
+    <form id="panel by owner">
+    <input id="name_client" type="text" placeholder="User name">
+    <select>
+      <option>Delete user</option>
+    </select>
+    <button type="button" onclick="executeControl(event)">Execute</button>
+    </form>
+    </div>
     <video
             id="my-video"
             class="video-js"
@@ -50,5 +61,6 @@
 </div>
 <script src="{{ url_for('static', path='/js/video.js') }}"></script>
 <script src="{{ url_for('static', path='/js/chat.js') }}"></script>
+<script src="{{ url_for('static', path='/js/owner_control.js') }}"></script>
 </body>
 </html>
