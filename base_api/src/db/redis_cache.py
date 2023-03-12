@@ -30,7 +30,7 @@ class Redis:
         data = await self.redis.get(key)
         return data
 
-    async def set_cache(self, key: str, data: bytes, expire: int = 60 * 60 * 5) -> None:
+    async def set_cache(self, key: str, data: str, expire: int = 60 * 60 * 5) -> None:
         """Создать запись в Redis по переданному ключу.
         Args:
             key: ключ, по которому будет создана запись.
