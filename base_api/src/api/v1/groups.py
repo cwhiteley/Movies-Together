@@ -1,12 +1,10 @@
 from fastapi import APIRouter, Depends, Request
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
-from services.groups import GroupsService, get_groups_service
-from core.config import settings
 from starlette.responses import JSONResponse
 
-# from starlette.responses import JSONResponse
+from core.config import settings
+from services.groups import GroupsService, get_groups_service
+
 
 router = APIRouter()
 
@@ -36,7 +34,6 @@ async def path(
     link_id: str, request: Request, service: GroupsService = Depends(get_groups_service)
 ):
     data = await service.get_data_from_cache(link_id)
-    print(data)
     film_id = data.get("film_id")
     if not film_id:
         return JSONResponse(
@@ -44,7 +41,7 @@ async def path(
             content={"message": "group view not found"},
         )
     return templates.TemplateResponse(
-        "index.html",
+        "player_chat.html",
         {
             "request": request,
             "video_host": settings.video_service.host,

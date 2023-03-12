@@ -1,10 +1,9 @@
-from fastapi.responses import FileResponse
-from fastapi import APIRouter, Request
-from fastapi.encoders import jsonable_encoder
-from fastapi.templating import Jinja2Templates
 import requests
-from core.config import settings
+from fastapi import APIRouter, Request, Depends
+from fastapi.templating import Jinja2Templates
 
+from api.v1.utils import verify_token
+from core.config import settings
 
 router = APIRouter()
 
@@ -16,8 +15,10 @@ templates = Jinja2Templates(directory="templates")
     summary="Connect to group view.",
     description="Connect to server socket.",
     response_description="Return status.",
+    name="Search",
 )
-async def search_movie(request: Request):
+async def search_movie(request: Request, payload=Depends(verify_token)):
+    print(payload)
     return templates.TemplateResponse(
         "search.html",
         {
