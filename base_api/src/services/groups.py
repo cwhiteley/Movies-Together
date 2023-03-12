@@ -28,13 +28,12 @@ class GroupsService(Redis):
 
     async def ban_user(self, key: str, user_name: str):
         data = await self.get_data_from_cache(key=key)
-        payload = loads(data)
-        if payload.get("black_list"):
-            payload["black_list"].append(user_name)
+        if data.get("black_list"):
+            data["black_list"].append(user_name)
         else:
             logging.error("Parametr 'black_list' not found in cache")
             return False
-        await self.set_cache(key=key, data=dumps(payload))
+        await self.set_cache(key=key, data=dumps(data))
         return True
 
 
