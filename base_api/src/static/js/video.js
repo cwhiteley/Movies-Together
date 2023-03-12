@@ -2,7 +2,7 @@ const player = videojs('my-video');
 const video_host = document.getElementById("video_host").textContent;
 const video_port = document.getElementById("video_port").textContent;
 const path_video_socket = document.getElementById("path_video_socket").textContent;
-const socket = new WebSocket("ws://"+video_host+":"+video_port+path_video_socket);
+const socket = new WebSocket("ws://" + video_host + ":" + video_port + path_video_socket);
 const randomUserName = Math.random().toString(36).substring(7);
 let lastTime = player.currentTime();
 let paused = true;
@@ -10,7 +10,7 @@ socket.onmessage = function (event) {
     const eventData = JSON.parse(event.data);
     const eventName = eventData.event_name;
     const user = eventData.user;
-
+    console.log(eventName, user)
     if (user !== randomUserName) {
         if (eventName === "play" && paused) {
             player.play();
@@ -25,7 +25,8 @@ socket.onmessage = function (event) {
         } else if (eventName === "change_time") {
             let currentTimeInt = parseInt(player.currentTime());
             let eventTimeInt = parseInt(eventData.time);
-            if (currentTimeInt !== eventTimeInt) {
+            console.log('Change time')
+            if (Math.abs(currentTimeInt - eventTimeInt) > 1) {
                 player.currentTime(eventData.time);
             }
         }
@@ -35,6 +36,7 @@ socket.onmessage = function (event) {
 player.on('pause', function () {
     const data = {
         event_name: 'pause',
+        time: player.currentTime(),
         user: randomUserName
     };
     if (!paused) {
@@ -47,8 +49,11 @@ player.on('pause', function () {
 player.on('play', function () {
     const data = {
         event_name: 'play',
+        time: player.currentTime(),
         user: randomUserName
     };
+    console.log(data)
+
     if (paused) {
         socket.send(JSON.stringify(data));
         paused = false;

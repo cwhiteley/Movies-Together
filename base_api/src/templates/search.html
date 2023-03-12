@@ -3,14 +3,25 @@
 <head>
     <title>Movie Search</title>
     <link href="{{ url_for('static', path='/css/movies.css') }}" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+<header>
+    <h1 class="logo_name">Movie Search</h1>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="{{ url_for('Search') }}">Movies</a></li>
+            <li><a href="#">TV Shows</a></li>
+            <li><a href="#">My Account</a></li>
+        </ul>
+    </nav>
+</header>
 <div class="header-main">
     <h1 class="name">Movie Search</h1>
 </div>
 <div class="search-container">
-    <form>
+    <form autocomplete="off">
         <input type="text" placeholder="Search for movies..." name="search" id="search-input">
         <button type="submit" id="search-btn">Search</button>
     </form>
@@ -20,11 +31,12 @@
     const searchInput = document.getElementById("search-input");
     const searchBtn = document.getElementById("search-btn");
     const cardsContainer = document.querySelector(".cards-container");
+    const serverHost = '{{ server_host }}';
 
     searchBtn.addEventListener("click", async (e) => {
         e.preventDefault();
         const query = searchInput.value;
-        const response = await fetch(`http://127.0.0.1/api/v1/films/search?query=${query}`);
+        const response = await fetch(`http://${serverHost}/api/v1/films/search?query=${query}`);
         const results = await response.json();
         displayResults(results);
     });
@@ -41,7 +53,8 @@
                 const card = document.createElement("div");
                 card.classList.add("card");
                 const omdb = '{{ omdb_key }}'
-                const response = await fetch(`http://www.omdbapi.com/?apikey=${omdb}c&t=${result.title}`);
+                const response = await fetch(`http://www.omdbapi.com/?apikey=${omdb}&t=${result.title}`);
+                console.log(omdb);
                 const data = await response.json();
                 const poster = data.Poster;
                 card.innerHTML = `
@@ -49,7 +62,7 @@
                     <img src="${poster}" alt="">
                     <div class="gradient"></div>
                 </div>
-                <a href="http://127.0.0.1:8000/api/v1/movies/${result.uuid}">
+                <a href="http://${serverHost}:8000/api/v1/movies/${result.uuid}">
                 <div class="card-content">
                   <h2>${result.title}</h2>
                   <p>IMDB Rating: ${result.imdb_rating}</p>
@@ -68,5 +81,22 @@
         }
     }
 </script>
+<script>
+    const movieNames = ['The Godfather', 'The Dark Knight', 'The Godfather', 'Forrest Gump', 'Star Wars', 'Pulp Fiction', 'The Lord of the Rings', 'Fight Club', 'Inception', 'The Matrix', 'Goodfellas']
+    const nameElement = document.querySelector('.name');
+
+    function changeName() {
+        nameElement.style.opacity = 0;
+        setTimeout(() => {
+            const randomIndex = Math.floor(Math.random() * movieNames.length);
+            nameElement.textContent = movieNames[randomIndex];
+            nameElement.style.opacity = 1;
+        }, 500);
+    }
+
+    setInterval(changeName, 5000);
+
+</script>
+<script src="{{ url_for('static', path='/js/refresh_token.js') }}"></script>
 </body>
 </html>

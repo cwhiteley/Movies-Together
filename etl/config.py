@@ -10,7 +10,7 @@ class PostgresSettings(BaseModel):
     user: str
     password: str
     host: str
-    port: str
+    port: int
 
 
 class ElasticSettings(BaseModel):
@@ -31,3 +31,5 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+print(settings)

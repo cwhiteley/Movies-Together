@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link href="{{ url_for('static', path='/css/auth.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body>
+<div class="container">
+    <form autocomplete="off">
+        <h1>Sign In</h1>
+        <input name="login" type="text" placeholder="Login" required>
+        <input name="password" type="password" placeholder="Password" required>
+        <p>New in Movie Search? <a href="{{ url_for('register') }}">Sign up now.</a></p>
+        <button type="submit">Sign In</button>
+    </form>
+</div>
+<script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();  // prevent the form from submitting normally
+
+        const serverHost = '{{ server_host }}';
+        const formData = new FormData(form);
+        const body = {
+            login: formData.get('login'),
+            password: formData.get('password')
+        };
+
+        const response = await fetch('http://' + serverHost + ':80/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // handle successful login
+            const refreshToken = data.refresh_token;
+            const accessToken = data.access_token;
+
+            const d2 = new Date();
+            const d = new Date();
+
+            d.setTime(d.getTime() + (100 * 60 * 1000));
+            d2.setTime(d2.getTime() + (1000 * 60 * 1000));
+
+            document.cookie = `access_token=${accessToken};expires=${d.toUTCString()}`;
+            document.cookie = `refresh_token=${refreshToken};expires=${d.toUTCString()}`;
+
+            // create a button element with a click event listener and rainbow background
+            const button = document.createElement('button');
+            button.innerText = 'Go to Movies';
+            button.classList.add('new-btn');
+            button.type = 'button'; // change the button type to "button"
+            button.addEventListener('click', () => {
+                window.location.href = 'http://' + serverHost + ':8000/api/v1/movies'; // redirect to /movies
+            });
+
+            // remove the old button and add the new button to the page
+            const signInButton = document.querySelector('button[type="submit"]');
+            signInButton.parentNode.replaceChild(button, signInButton);
+
+            console.log('Access token: ' + accessToken, 'Refresh token: ' + refreshToken);
+        } else {
+            // handle login error
+            console.error('Login failed.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Invalid login or password!',
+                confirmButtonColor: '#d33',
+            });
+        }
+    });
+
+</script>
+</body>
+</html>
