@@ -72,6 +72,7 @@ class UserService(BaseService):
 
         base_token = {
             "user_id": user_id,
+            "username": user["first_name"],
             #  Минус секунда для компенсации рассинхрона
             #  времени на разных серверах
             "iat": timestamp - 1,

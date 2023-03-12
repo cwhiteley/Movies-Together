@@ -21,6 +21,7 @@ class LoginHistoryService(BaseService):
         )
 
     def dispose_token_pair(self, **query):
+        print("dispose_token_pair" * 10)
         timestamp = round(time.time())
         models = self.search(
             convert_to_dict=False,
