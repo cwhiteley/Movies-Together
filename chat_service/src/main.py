@@ -18,6 +18,7 @@ app = FastAPI(
 
 active_connections = set()
 
+
 @app.websocket("/api/v1/groups/ws/chat/{link_id}")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
