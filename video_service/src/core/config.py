@@ -13,8 +13,14 @@ class VideoService(BaseSettings):
     port: int
 
 
+class Redis(BaseSettings):
+    host: str
+    port: int
+
+
 class Settings(BaseSettings):
-    chat_service: VideoService
+    video_service: VideoService
+    redis: Redis
 
     class Config:
         env_file = (
