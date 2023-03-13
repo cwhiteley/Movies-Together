@@ -4,7 +4,7 @@ from starlette.responses import JSONResponse
 
 from core.config import settings
 from services.groups import GroupsService, get_groups_service
-
+from api.v1.utils import verify_token
 
 router = APIRouter()
 
@@ -18,9 +18,9 @@ templates = Jinja2Templates(directory="templates")
     response_description="Return link to stream.",
 )
 async def path(
-    film_id: str, service: GroupsService = Depends(get_groups_service)
+        film_id: str, service: GroupsService = Depends(get_groups_service), payload=Depends(verify_token)
 ) -> JSONResponse:
-    link = await service.create_chat(film_id=film_id, user_id="user")
+    link = await service.create_chat(film_id=film_id, user_id=payload.get("user_id"))
     return JSONResponse(content={"link": link}, status_code=200)
 
 
@@ -31,7 +31,8 @@ async def path(
     response_description="Return status.",
 )
 async def path(
-    link_id: str, request: Request, service: GroupsService = Depends(get_groups_service)
+        link_id: str, request: Request, service: GroupsService = Depends(get_groups_service),
+        payload=Depends(verify_token)
 ):
     data = await service.get_data_from_cache(link_id)
     film_id = data.get("film_id")
@@ -52,5 +53,6 @@ async def path(
             "path_chat_socket": f"/api/v1/groups/ws/chat/{link_id}",
             "film_id": f"{film_id}",
             "server_host": settings.server_host,
+            "username": f"{payload.get('username')}",
         },
     )

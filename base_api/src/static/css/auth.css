@@ -97,7 +97,19 @@ p {
         font-size: 14px;
     }
 
-    new-btn {
+    .new-btn {
         font-size: 14px;
     }
+}
+footer {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: black;
+}
+
+footer p {
+    margin: 0;
+    padding: 0;
+    font-size: 0.8rem;
 }

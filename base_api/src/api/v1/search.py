@@ -18,7 +18,6 @@ templates = Jinja2Templates(directory="templates")
     name="Search",
 )
 async def search_movie(request: Request, payload=Depends(verify_token)):
-    print(payload)
     return templates.TemplateResponse(
         "search.html",
         {
