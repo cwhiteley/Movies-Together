@@ -12,8 +12,8 @@
         <ul>
             <li><a href="#">Home</a></li>
             <li><a href="{{ url_for('Search') }}">Movies</a></li>
-            <li><a href="#">TV Shows</a></li>
-            <li><a href="#">My Account</a></li>
+            <li><a href="#">TV</a></li>
+            <li><a href="#">Account</a></li>
         </ul>
     </nav>
 </header>
@@ -27,6 +27,9 @@
     </form>
 </div>
 <div class="cards-container"></div>
+<footer>
+    <p>&copy; 2023 Movie Search, Inc.</p>
+</footer>
 <script>
     const searchInput = document.getElementById("search-input");
     const searchBtn = document.getElementById("search-btn");
@@ -82,7 +85,7 @@
     }
 </script>
 <script>
-    const movieNames = ['The Godfather', 'The Dark Knight', 'The Godfather', 'Forrest Gump', 'Star Wars', 'Pulp Fiction', 'The Lord of the Rings', 'Fight Club', 'Inception', 'The Matrix', 'Goodfellas']
+    const movieNames = ['The Godfather', 'The Dark Knight', 'Forrest Gump', 'Star Wars', 'Pulp Fiction', 'The Lord of the Rings', 'Fight Club', 'Inception', 'The Matrix', 'Goodfellas']
     const nameElement = document.querySelector('.name');
 
     function changeName() {

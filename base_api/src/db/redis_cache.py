@@ -2,7 +2,7 @@ import hashlib
 import logging
 from typing import Optional
 
-# from aioredis import Redis
+
 from redis.asyncio import Redis
 
 # переменная хранит объект подключения после чего передачи

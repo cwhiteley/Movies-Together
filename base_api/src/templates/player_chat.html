@@ -13,6 +13,7 @@
     <div id="chat_port" style="display:none;">{{ chat_port }}</div>
     <div id="path_video_socket" style="display:none;">{{ path_video_socket }}</div>
     <div id="path_chat_socket" style="display:none;">{{ path_chat_socket }}</div>
+    <div id="username" style="display:none;">{{ username }}</div>
     <!--    <div id="path_web_socket" style="display:none;">{{ path_web_socket }}</div>-->
 </head>
 <body>
@@ -22,8 +23,8 @@
         <ul>
             <li><a href="#">Home</a></li>
             <li><a href="{{ url_for('Search') }}">Movies</a></li>
-            <li><a href="#">TV Shows</a></li>
-            <li><a href="#">My Account</a></li>
+            <li><a href="#">TV</a></li>
+            <li><a href="#">Account</a></li>
         </ul>
     </nav>
 </header>
@@ -59,8 +60,8 @@
         </form>
     </div>
 </div>
-<script src="{{ url_for('static', path='/js/video.js') }}"></script>
 <script src="{{ url_for('static', path='/js/chat.js') }}"></script>
+<script src="{{ url_for('static', path='/js/video.js') }}"></script>
 <script src="{{ url_for('static', path='/js/refresh_token.js') }}"></script>
 </body>
 </html>

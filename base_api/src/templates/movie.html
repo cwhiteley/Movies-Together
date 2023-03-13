@@ -20,8 +20,8 @@
             <ul>
                 <li><a href="#">Home</a></li>
                 <li><a href="{{ url_for('Search') }}">Movies</a></li>
-                <li><a href="#">TV Shows</a></li>
-                <li><a href="#">My Account</a></li>
+                <li><a href="#">TV</a></li>
+                <li><a href="#">Account</a></li>
             </ul>
         </nav>
     </header>
@@ -38,17 +38,22 @@
                 <div class="info-item"><i class="fas fa-film"></i> {{ movie['genres'][0] }}</div>
                 <div class="info-item"><i class="fas fa-calendar-alt"></i> {{ movie['creation_date'] }}</div>
                 <div class="info-item"><i class="fas fa-clock"></i> {{ movie['runtime'] }} 2.2 Hours</div>
-                <div class="info-item"><i class="fas fa-film"></i> Actors: {{ ', '.join(movie['actors']) }}</div>
-                <div class="info-item"><i class="fas fa-pen"></i> Writers: {{ ', '.join(movie['writers']) }}</div>
-                <div class="info-item"><i class="fas fa-video"></i> Director(s): {{ ', '.join(movie['directors']) }}
-                </div>
-                <div class="buttons">
-                    <div class="play-button"><i class="fas fa-play"></i> Play</div>
-                    <div class="together-button"><i class="fas fa-users"></i> Together</div>
-                </div>
+                {% if movie['actors'] %}
+                <div class="info-item"><i class="fas fa-film"></i> Actors: {{ (movie['actors'][0]) }}</div>
+                {% endif %}
+                {% if movie['writers'] %}
+                <div class="info-item"><i class="fas fa-pen"></i> Writers: {{ (movie['writers'][0]) }}</div>
+                {% endif %}
+                {% if movie['directors'] %}
+                <div class="info-item"><i class="fas fa-video"></i> Director(s): {{ (movie['directors'][0]) }}</div>
+                {% endif %}
             </div>
-            <p class="overview">{{ movie['overview'] }}</p>
+            <div class="buttons">
+                <div class="play-button"><i class="fas fa-play"></i> Play</div>
+                <div class="together-button"><i class="fas fa-users"></i> Together</div>
+            </div>
         </div>
+        <p class="overview">{{ movie['overview'] }}</p>
     </main>
     <footer>
         <p>&copy; 2023 Movie Search, Inc.</p>

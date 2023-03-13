@@ -236,6 +236,7 @@ body {
 
 .buttons {
     margin-top: 1.5rem;
+    margin-left: 2rem;
     display: flex;
     align-items: center;
 }
@@ -284,9 +285,6 @@ footer p {
 
 @media screen and (max-width: 768px) {
     .header {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
     }
 
     .logo {
@@ -297,13 +295,14 @@ footer p {
         flex-direction: column;
         align-items: center;
         justify-content: center;
+            margin-left: 0;
+
     }
 
     .play-button, .together-button {
         margin-right: 0;
         margin-bottom: 10px;
     }
-
 
     .poster {
         margin-bottom: 40px;
@@ -335,12 +334,12 @@ footer p {
 }
 
 @media only screen and (max-width: 768px) {
-
     .main {
         flex-direction: column;
-            align-items: center;
+        align-items: center;
 
     }
+
     .header-main {
         height: 300px;
     }
@@ -363,7 +362,6 @@ footer p {
     .search-container input[type="text"] {
         width: 100%;
         margin-right: 0;
-        margin-bottom: 10px;
     }
 
     .search-container button {
