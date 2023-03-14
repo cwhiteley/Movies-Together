@@ -19,7 +19,6 @@ async def websocket_endpoint(
     user = await get_user(cokies=websocket.cookies)
 
     if user not in cache_data["black_list"]:
-
         await websocket.accept()
         active_connections.add(websocket)
 
@@ -33,7 +32,11 @@ async def websocket_endpoint(
                     "user_name"
                 ) != cache_data.get("user"):
                     await service.ban_user(key=link_id, user_name=message["user_name"])
-                    current_host, current_port = [client.get(message["user_name"]) for client in cache_data["clients"] if client.get(message["user_name"])][0]
+                    current_host, current_port = [
+                        client.get(message["user_name"])
+                        for client in cache_data["clients"]
+                        if client.get(message["user_name"])
+                    ][0]
                     if current_host and current_port:
                         for connection in active_connections:
                             if current_host == connection.client.__getattribute__(
