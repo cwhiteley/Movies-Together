@@ -6,6 +6,9 @@ const path_control_socket = document.getElementById("path_control_socket").textC
 const socket_control = new WebSocket("ws://"+control_host+':'+ control_port + path_control_socket);
 
 socket_control.onmessage = function(event) {
+    if (event.data == 'close channel'){
+        location.reload()
+    }
     var messages = document.getElementById('messages')
     var message = document.createElement('div')
     var content = document.createTextNode(event.data)

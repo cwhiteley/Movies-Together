@@ -18,7 +18,7 @@ class GroupsService(Redis):
         # add information for connection to redis
         await self.set_cache(
             key=link_key,
-            data=dumps({"film_id": film_id, "user": user_id, "clients": [user_id], "black_list": []}),
+            data=dumps({"film_id": film_id, "user": user_id, "clients": [], "black_list": []}),
         )
         return link_key
 
@@ -26,13 +26,12 @@ class GroupsService(Redis):
         data = await self.get_cache(key=key)
         return loads(data)
 
+    async def set_data_to_cache(self, key: str, data: dict):
+        await self.set_cache(key=key, data=dumps(data))
+
     async def ban_user(self, key: str, user_name: str):
         data = await self.get_data_from_cache(key=key)
-        if data.get("black_list"):
-            data["black_list"].append(user_name)
-        else:
-            logging.error("Parametr 'black_list' not found in cache")
-            return False
+        data["black_list"].append(user_name)
         await self.set_cache(key=key, data=dumps(data))
         return True
 
