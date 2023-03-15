@@ -3,7 +3,7 @@ from typing import Any, List
 
 from pydantic import BaseModel, Json, create_model
 
-class Messege(BaseModel):
+class Message(BaseModel):
     timestamp: datetime = None
     user: str = None
     data: str = None
@@ -13,7 +13,7 @@ class Messege(BaseModel):
 
 class Chat(BaseModel):
     id: str = None
-    messeges: List[Messege] = []
+    messages: List[Message] = []
 
     class Config:
         orm_mode = True

@@ -12,13 +12,13 @@ class ChatService(BaseSettings):
     host: str
     port: int
 
-class Redis(BaseSettings):
+class Redis_conn(BaseSettings):
     host: str
     port: int
 
 class Settings(BaseSettings):
     chat_service: ChatService
-    redis: Redis
+    redis: Redis_conn
 
     class Config:
         env_file = (
