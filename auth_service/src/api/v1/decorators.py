@@ -168,6 +168,11 @@ def required_permissions(
                 raise exceptions.AuthTokenOutdatedException
 
             if cache.get(encoded_token):
+                print(
+                    'I"m in cache!!! \n'
+                    'I"m in cache!!! \n'
+                    'I"m in cache!!!\n'
+                )
                 raise exceptions.AuthTokenOutdatedException
 
             token_permissions = payload.get("permissions")

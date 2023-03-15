@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+
+
+/* Global styles */
+body {
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    line-height: 1.4;
+    background-color: #141414;
+    color: #fff;
+}
+
+/* Header styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.logo_name {
+    font-size: 2rem;
+    color: #e50914;
+    text-transform: uppercase;
+}
+
+nav ul {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.2s ease;
+}
+
+nav a:hover {
+    color: #e50914;
+}
+
+/* Hero section styles */
+.hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.hero-image img {
+    width: 70%;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.hero-message {
+    margin-left: 2rem;
+    text-align: center;
+}
+
+.hero-message h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #e50914;
+}
+
+.hero-message p {
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.login-link {
+    text-decoration: none;
+    background: linear-gradient(to right, #e50914, #4f0000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    transition: background 3s ease-in-out;
+}
+
+.login-link:hover {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: flicker 3s linear infinite;
+}
+
+@keyframes flicker {
+    0% {
+        opacity: 1;
+    }
+    25% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    75% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@media only screen and (max-width: 746px) {
+
+    .hero {
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .hero-image img {
+        width: 100%;
+    }
+
+    .hero-message {
+        margin: 2rem 0;
+    }
+
+    .hero-message h2 {
+        font-size: 2rem;
+    }
+
+    .hero-message p {
+        font-size: 1.2rem;
+    }
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    color: #999;
+}
+
+footer p {
+    margin: 0;
+    padding: 0;
+    font-size: 0.8rem;
+}

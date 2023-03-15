@@ -1,10 +1,6 @@
-import os
-from fastapi.responses import FileResponse
 from fastapi import APIRouter, Request
-from fastapi.encoders import jsonable_encoder
 from fastapi.templating import Jinja2Templates
-import requests
-from core.config import settings, ROOT_PATH
+from core.config import ROOT_PATH, settings
 
 router = APIRouter()
 

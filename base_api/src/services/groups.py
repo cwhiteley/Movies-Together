@@ -2,7 +2,6 @@ import logging
 from functools import lru_cache
 from json import dumps, loads
 
-# from aioredis import Redis as aio_redis
 from redis.asyncio import Redis as aio_redis
 from db.redis_cache import Redis, get_cache_conn
 from fastapi import Depends

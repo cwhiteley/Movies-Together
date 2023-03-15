@@ -34,8 +34,17 @@ class ApiKeys(BaseSettings):
     omdb: str
 
 
+class Token(BaseSettings):
+    access_lifetime: int
+    refresh_lifetime: int
+    algo: str
+
+
 class Settings(BaseSettings):
     server_host: str
+    secret_key: str
+
+    token: Token
     base_api: BaseApi
     chat_service: ChatService
     video_service: VideoService

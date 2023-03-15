@@ -1,19 +1,20 @@
-import json
 import logging
-import os
 
 import backoff
 import redis as redis_bibl
 import uvicorn
 from api.v1 import groups, stream, search, auth, control
-from core.config import settings
-from db import redis_cache
-from fastapi import FastAPI, Request
+from core.config import ROOT_PATH
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from redis import asyncio as aioredis
-from core.config import ROOT_PATH
-from fastapi.middleware.cors import CORSMiddleware
+
+from api.v1 import groups, stream, search, auth
+from core.config import settings
+from db import redis_cache
 
 logging.basicConfig(level=logging.INFO)
 
@@ -24,6 +25,7 @@ app = FastAPI(
     openapi_url="/api/openapi.json",
     default_response_class=ORJSONResponse,
 )
+templates = Jinja2Templates(directory="templates")
 
 app.mount("/static", StaticFiles(directory=f"{ROOT_PATH}static"), name="static")
 
@@ -50,6 +52,23 @@ async def shutdown():
         await redis_cache.redis_conn.close()
     logging.info("Closed connections")\
 
+
+
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request, exc):
+    if exc.status_code == 401:
+        return templates.TemplateResponse("login_problem.html", {"request": request})
+    return exc
 
 
 app.include_router(groups.router, prefix="/api/v1/groups", tags=["Group views"])

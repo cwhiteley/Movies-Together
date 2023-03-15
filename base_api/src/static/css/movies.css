@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
 
 body {
     font-family: "Montserrat", sans-serif;
@@ -6,13 +6,14 @@ body {
     line-height: 1.5;
     color: #f5f5f1;
     background-color: #141414;
+
 }
 
 .header-main {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+    background-color: #141414;
     background-size: cover;
     height: 500px;
     position: relative;
@@ -25,7 +26,6 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .header-main h1 {
@@ -142,12 +142,6 @@ body {
 }
 
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px;
-}
-
 .header {
     display: flex;
     align-items: center;
@@ -163,6 +157,9 @@ body {
 
 .main {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 
@@ -238,6 +235,8 @@ body {
 }
 
 .buttons {
+    margin-top: 1.5rem;
+    margin-left: 2rem;
     display: flex;
     align-items: center;
 }
@@ -268,6 +267,9 @@ body {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
+.play-button:hover {
+    background-color: darkred;
+}
 
 footer {
     text-align: center;
@@ -283,9 +285,6 @@ footer p {
 
 @media screen and (max-width: 768px) {
     .header {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
     }
 
     .logo {
@@ -296,15 +295,13 @@ footer p {
         flex-direction: column;
         align-items: center;
         justify-content: center;
+            margin-left: 0;
+
     }
 
     .play-button, .together-button {
         margin-right: 0;
         margin-bottom: 10px;
-    }
-
-    .main {
-        flex-direction: column;
     }
 
     .poster {
@@ -337,6 +334,12 @@ footer p {
 }
 
 @media only screen and (max-width: 768px) {
+    .main {
+        flex-direction: column;
+        align-items: center;
+
+    }
+
     .header-main {
         height: 300px;
     }
@@ -359,7 +362,6 @@ footer p {
     .search-container input[type="text"] {
         width: 100%;
         margin-right: 0;
-        margin-bottom: 10px;
     }
 
     .search-container button {
@@ -370,4 +372,35 @@ footer p {
         width: 100%;
         margin: 20px 0;
     }
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.logo_name {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #e50914;
+    text-transform: uppercase;
+}
+
+nav ul {
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.2s ease;
+}
+
+nav a:hover {
+    color: #e50914;
 }

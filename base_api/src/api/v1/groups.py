@@ -1,14 +1,12 @@
 import os
 from fastapi import APIRouter, Depends, Request
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
-from services.groups import GroupsService, get_groups_service
-from core.config import settings
 from starlette.responses import JSONResponse
 from core.config import ROOT_PATH
 
-# from starlette.responses import JSONResponse
+from core.config import settings
+from services.groups import GroupsService, get_groups_service
+from api.v1.utils import verify_token
 
 router = APIRouter()
 
@@ -22,9 +20,9 @@ templates = Jinja2Templates(directory=f"{ROOT_PATH}templates")
     response_description="Return link to stream.",
 )
 async def path(
-    film_id: str, service: GroupsService = Depends(get_groups_service)
+        film_id: str, service: GroupsService = Depends(get_groups_service), payload=Depends(verify_token)
 ) -> JSONResponse:
-    link = await service.create_chat(film_id=film_id, user_id="user")
+    link = await service.create_chat(film_id=film_id, user_id=payload.get("user_id"))
     return JSONResponse(content={"link": link}, status_code=200)
 
 
@@ -35,7 +33,8 @@ async def path(
     response_description="Return status.",
 )
 async def path(
-    link_id: str, request: Request, service: GroupsService = Depends(get_groups_service)
+        link_id: str, request: Request, service: GroupsService = Depends(get_groups_service),
+        payload=Depends(verify_token)
 ):
     data = await service.get_data_from_cache(link_id)
     film_id = data.get("film_id")
@@ -45,7 +44,7 @@ async def path(
             content={"message": "group view not found"},
         )
     return templates.TemplateResponse(
-        "index.html",
+        "player_chat.html",
         {
             "request": request,
             "user_owner": data.get("user_id"),
@@ -60,5 +59,6 @@ async def path(
             "path_control_socket": f"/api/v1/control/ws/{link_id}",
             "film_id": f"{film_id}",
             "server_host": settings.server_host,
+            "username": f"{payload.get('username')}",
         },
     )

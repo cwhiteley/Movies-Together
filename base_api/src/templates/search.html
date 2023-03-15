@@ -4,10 +4,19 @@
     <title>Movie Search</title>
     <link href="{{ url_for('static', path='/css/movies.css') }}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
 </head>
 <body>
+<header>
+    <h1 class="logo_name">Movie Search</h1>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="{{ url_for('Search') }}">Movies</a></li>
+            <li><a href="#">TV</a></li>
+            <li><a href="#">Account</a></li>
+        </ul>
+    </nav>
+</header>
 <div class="header-main">
     <h1 class="name">Movie Search</h1>
 </div>
@@ -18,6 +27,9 @@
     </form>
 </div>
 <div class="cards-container"></div>
+<footer>
+    <p>&copy; 2023 Movie Search, Inc.</p>
+</footer>
 <script>
     const searchInput = document.getElementById("search-input");
     const searchBtn = document.getElementById("search-btn");
@@ -73,7 +85,7 @@
     }
 </script>
 <script>
-    const movieNames = ['The Godfather', 'The Dark Knight', 'The Godfather', 'Forrest Gump', 'Star Wars', 'Pulp Fiction', 'The Lord of the Rings', 'Fight Club', 'Inception', 'The Matrix', 'Goodfellas']
+    const movieNames = ['The Godfather', 'The Dark Knight', 'Forrest Gump', 'Star Wars', 'Pulp Fiction', 'The Lord of the Rings', 'Fight Club', 'Inception', 'The Matrix', 'Goodfellas']
     const nameElement = document.querySelector('.name');
 
     function changeName() {
@@ -88,5 +100,6 @@
     setInterval(changeName, 5000);
 
 </script>
+<script src="{{ url_for('static', path='/js/refresh_token.js') }}"></script>
 </body>
 </html>
