@@ -6,6 +6,7 @@ import re
 import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import ORJSONResponse
+from utils.user import get_user
 from redis import asyncio as aioredis
 from pydantic.json import pydantic_encoder
 
@@ -35,6 +36,7 @@ async def websocket_endpoint(websocket: WebSocket):
         host=settings.redis.host, port=settings.redis.port, decode_responses=True
     )
     await websocket.accept()
+    user = await get_user(cokies=websocket.cookies)
     active_connections.add(websocket)
 
     # create chat id from websocket link
@@ -54,6 +56,7 @@ async def websocket_endpoint(websocket: WebSocket):
             message = Message(**data)
             message.timestamp = datetime.now().time().replace(microsecond=0)
             for connection in active_connections:
+                # await connection.send_text(f"{user}: {message['data']}")
                 await connection.send_text(f"{message.timestamp}: User_{message.user}: {message.data}")
                 # update and record chat history into cache storage (redis)
                 chat.messages.append(message)

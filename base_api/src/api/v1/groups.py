@@ -1,6 +1,8 @@
+import os
 from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
 from starlette.responses import JSONResponse
+from core.config import ROOT_PATH
 
 from core.config import settings
 from services.groups import GroupsService, get_groups_service
@@ -8,7 +10,7 @@ from api.v1.utils import verify_token
 
 router = APIRouter()
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory=f"{ROOT_PATH}templates")
 
 
 @router.post(
@@ -45,12 +47,16 @@ async def path(
         "player_chat.html",
         {
             "request": request,
+            "user_owner": data.get("user_id"),
+            "control_host": settings.base_api.host,
+            "control_port": settings.base_api.port,
             "video_host": settings.video_service.host,
             "video_port": settings.video_service.port,
             "chat_host": settings.chat_service.host,
             "chat_port": settings.chat_service.port,
             "path_video_socket": f"/api/v1/groups/ws/video/{link_id}",
             "path_chat_socket": f"/api/v1/groups/ws/chat/{link_id}",
+            "path_control_socket": f"/api/v1/control/ws/{link_id}",
             "film_id": f"{film_id}",
             "server_host": settings.server_host,
             "username": f"{payload.get('username')}",

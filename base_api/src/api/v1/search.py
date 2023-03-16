@@ -1,3 +1,4 @@
+from core.config import ROOT_PATH
 import requests
 from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
@@ -7,7 +8,7 @@ from core.config import settings
 
 router = APIRouter()
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory=f"{ROOT_PATH}templates")
 
 
 @router.get(

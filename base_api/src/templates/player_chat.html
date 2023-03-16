@@ -7,12 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://vjs.zencdn.net/8.0.4/video.min.js"></script>
+    <div id="user_owner" style="display:none;">{{ user_owner }}</div>
+    <div id="control_host" style="display:none;">{{ control_host }}</div>
+    <div id="control_port" style="display:none;">{{ control_port }}</div>
     <div id="video_host" style="display:none;">{{ video_host }}</div>
     <div id="video_port" style="display:none;">{{ video_port }}</div>
     <div id="chat_host" style="display:none;">{{ chat_host }}</div>
     <div id="chat_port" style="display:none;">{{ chat_port }}</div>
     <div id="path_video_socket" style="display:none;">{{ path_video_socket }}</div>
     <div id="path_chat_socket" style="display:none;">{{ path_chat_socket }}</div>
+    <div id="path_control_socket" style="display:none;">{{ path_control_socket }}</div>
     <div id="username" style="display:none;">{{ username }}</div>
     <!--    <div id="path_web_socket" style="display:none;">{{ path_web_socket }}</div>-->
 </head>
@@ -29,6 +33,16 @@
     </nav>
 </header>
 <div class="video-container">
+    <div class="control-box">
+    <h3>Control panel</h3>
+    <form id="panel by owner">
+    <input id="name_client" type="text" placeholder="User name">
+    <select id="control_command">
+      <option>Delete user</option>
+    </select>
+    <button type="button" onclick="executeControl(event)">Execute</button>
+    </form>
+    </div>
     <video
             id="my-video"
             class="video-js"
@@ -61,6 +75,7 @@
     </div>
 </div>
 <script src="{{ url_for('static', path='/js/chat.js') }}"></script>
+<script src="{{ url_for('static', path='/js/owner_control.js') }}"></script>
 <script src="{{ url_for('static', path='/js/video.js') }}"></script>
 <script src="{{ url_for('static', path='/js/refresh_token.js') }}"></script>
 </body>
