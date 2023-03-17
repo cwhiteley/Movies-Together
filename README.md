@@ -1,5 +1,4 @@
 # Movies Together
-https://github.com/Berupor/Movies-Together
 
 Movies Together is a Python-based web application that allows you to watch movies together with your friends, family, or anyone you choose, no matter where they are in the world. The application uses a variety of different Python technologies, including Django, FastAPI, Flask, Elasticsearch, Redis, and WebSockets, to provide an immersive and interactive experience.
 
@@ -31,3 +30,6 @@ First, you will need to create `.env` file by copying the `.env.example` file. T
 docker-compose up --build
 ``` 
 This will build and start all of the required services, including the frontend, backend, and database.
+
+https://github.com/Berupor/Movies-Together
+
