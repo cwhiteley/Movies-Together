@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ movie['title'] }}</title>
+    <link href="{{ url_for('static', path='/css/movies.css') }}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9e1776906e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <h1 class="logo_name">Movie Search</h1>
+
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="{{ url_for('Search') }}">Movies</a></li>
+                <li><a href="#">TV</a></li>
+                <li><a href="#">Account</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="main">
+        <div class="poster">
+            <img src="{{ poster }}" alt="">
+        </div>
+
+        <div class="details">
+            <h2 class="title">{{ movie['title'] }}</h2>
+            <p class="tagline">{{ movie['tagline'] }}</p>
+            <div class="info">
+                <div class="info-item"><i class="fas fa-star"></i> {{ movie['rating'] }}</div>
+                <div class="info-item"><i class="fas fa-film"></i> {{ movie['genres'][0] }}</div>
+                <div class="info-item"><i class="fas fa-calendar-alt"></i> {{ movie['creation_date'] }}</div>
+                <div class="info-item"><i class="fas fa-clock"></i> {{ movie['runtime'] }} 2.2 Hours</div>
+                {% if movie['actors'] %}
+                <div class="info-item"><i class="fas fa-film"></i> Actors: {{ (movie['actors'][0]) }}</div>
+                {% endif %}
+                {% if movie['writers'] %}
+                <div class="info-item"><i class="fas fa-pen"></i> Writers: {{ (movie['writers'][0]) }}</div>
+                {% endif %}
+                {% if movie['directors'] %}
+                <div class="info-item"><i class="fas fa-video"></i> Director(s): {{ (movie['directors'][0]) }}</div>
+                {% endif %}
+            </div>
+            <div class="buttons">
+                <div class="play-button"><i class="fas fa-play"></i> Play</div>
+                <div class="together-button"><i class="fas fa-users"></i> Together</div>
+            </div>
+        </div>
+        <p class="overview">{{ movie['overview'] }}</p>
+    </main>
+    <footer>
+        <p>&copy; 2023 Movie Search, Inc.</p>
+    </footer>
+    <script src="https://kit.fontawesome.com/9e1776906e.js" crossorigin="anonymous"></script>
+    <script>
+        const togetherButton = document.querySelector('.together-button');
+        const movieId = '{{ movie["id"] }}';
+        togetherButton.addEventListener('click', async () => {
+            const response = await fetch(`/api/v1/groups/${movieId}`, {
+                method: 'POST'
+            });
+
+            const data = await response.json();
+            const link = data.link;
+            const serverHost = '{{ server_host }}';
+
+            const swalMixin = Swal.mixin({
+                showClass: {
+                    confirmButton: 'btn btn-primary',
+                },
+                customClass: {
+                    icon: 'text-primary',
+                },
+            });
+
+            swalMixin.fire({
+                title: `"{{movie['title']}}"`,
+                html: `Here's the link to watch together: <a href="http://${serverHost}:8000/api/v1/groups/view/${link}">Link</a>`,
+                icon: 'success',
+                confirmButtonText: 'Copy Link',
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const linkElement = document.createElement('textarea');
+                    linkElement.value = `http://${serverHost}:8000/api/v1/groups/view/${link}`;
+                    document.body.appendChild(linkElement);
+                    linkElement.select();
+                    document.execCommand('copy');
+                    linkElement.remove();
+                    Swal.fire({
+                        title: 'Link Copied!',
+                        icon: 'success',
+                    });
+                }
+            });
+        });
+
+        const omdb = '{{ omdb_key }}';
+        const movieTitle = '{{ movie["title"] }}';
+        console.log(movieTitle);
+        fetch(`http://www.omdbapi.com/?apikey=${omdb}&t=${movieTitle}`)
+            .then(response => response.json())
+            .then(data => {
+                const posterUrl = data.Poster;
+                const posterImg = document.querySelector(".poster img");
+                posterImg.src = posterUrl;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+    </script>
+</div>
+<script src="{{ url_for('static', path='/js/refresh_token.js') }}"></script>
+</body>
+</html>

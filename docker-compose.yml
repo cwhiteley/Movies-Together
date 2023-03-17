@@ -1,0 +1,175 @@
+services:
+  cache:
+    container_name: redis
+    image: redis:7.0.5-alpine
+    hostname: redis
+    ports:
+      - "6379:6379"
+    restart: always
+
+#  movie_search:
+#    build: movie_search/src
+#    restart: always
+#    expose:
+#      - "8000"
+##    depends_on:
+##      es01:
+##        condition: service_healthy
+#    env_file:
+#      - ./.env
+#
+  base_api:
+      build:
+        context: ./base_api
+        dockerfile: Dockerfile
+      image: base_api:latest
+      container_name: base_api
+      depends_on:
+        - cache
+      ports:
+        - "8000:8000"
+      env_file:
+        - ./.env
+
+  chat_service:
+    build:
+      context: ./chat_service
+      dockerfile: Dockerfile
+    image: chat_service:latest
+    ports:
+      - "8001:8001"
+    container_name: chat_service
+    env_file:
+      - ./.env
+    restart: always
+
+  video_service:
+    build:
+      context: ./video_service
+      dockerfile: Dockerfile
+    image: video_service:latest
+    container_name: video_service
+    ports:
+      - "8002:8002"
+    env_file:
+      - ./.env
+    restart: always
+#
+#  es01:
+#    hostname: ${ELASTIC__HOST}
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
+#    container_name: es01
+#    environment:
+#      - node.name=es01
+#      - cluster.name=es-docker-cluster
+#      - cluster.initial_master_nodes=es01
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#
+#    ports:
+#      - 9200:9200
+#    healthcheck:
+#      test: [ "CMD-SHELL", "curl -f http://localhost:9200 || exit 1" ]
+#      interval: 20s
+#      timeout: 20s
+#      retries: 5
+#    restart: always
+#
+#  nginx:
+#    container_name: nginx
+#    image: nginx:1.23.1
+#    volumes:
+#      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+#      - ./nginx/site.conf:/etc/nginx/conf.d/site.conf:ro
+#      - static_volume:/admin_panel/staticfiles/
+#    depends_on:
+#      - admin_panel
+#    ports:
+#      - 80:80
+#    restart: always
+#
+#  movies_db:
+#    hostname: ${POSTGRES_MOVIES__HOST}
+#    image: postgres:15.0-alpine
+#    volumes:
+#      - ./postgres_data:/var/lib/postgresql/data/
+#    env_file:
+#      - .env
+#    restart: always
+#    expose:
+#      - ${POSTGRES_MOVIES__PORT}
+#    environment:
+#      - POSTGRES_USER=${POSTGRES_MOVIES__USER}
+#      - POSTGRES_PASSWORD=${POSTGRES_MOVIES__PASSWORD}
+#      - POSTGRES_DB=${POSTGRES_MOVIES__DBNAME}
+#    healthcheck:
+#      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+#
+#  admin_panel:
+#    env_file:
+#      - ./.env
+#    hostname: ${DJANGO__HOST}
+#    container_name: admin_panel
+#    build: admin_panel
+#    restart: always
+#    expose:
+#      - ${DJANGO__PORT}
+#    depends_on:
+#      movies_db:
+#        condition: service_healthy
+#
+#  etl:
+#    env_file:
+#      - ./.env
+#    container_name: etl
+#    build: ./etl
+#    command: python load_data.py
+#    expose:
+#      - ${ETL__PORT}
+##    depends_on:
+##      es01:
+##        condition: service_healthy
+#    restart: always
+#
+#  auth_db:
+#    hostname: auth_db
+#    image: postgres:15.0-alpine
+#    restart: always
+#    env_file:
+#      - ./.env
+#    environment:
+#      - POSTGRES_USER=${POSTGRES_AUTH__USER}
+#      - POSTGRES_PASSWORD=${POSTGRES_AUTH__PASSWORD}
+#      - POSTGRES_DB=${POSTGRES_AUTH__DBNAME}
+#    expose:
+#      - ${POSTGRES_AUTH__PORT}
+#
+#  auth_service:
+#    hostname: ${AUTH_SERVICE__HOST}
+#    build: auth_service
+#    depends_on:
+#      - auth_db
+#    restart: always
+#    expose:
+#      - ${AUTH_SERVICE__PORT}
+#    env_file:
+#      - ./.env
+#    command: [ "/bin/bash", "-c", "./entrypoint.sh && uwsgi --strict --ini uwsgi.ini" ]
+#
+#
+#  jaeger:
+#    image: jaegertracing/all-in-one:1.39.0
+#    ports:
+#      - "16686:16686"
+#    restart: always
+
+volumes:
+  postgres_data: null
+  static_volume:
+  redis_data: null
+  data01:
+    driver: local

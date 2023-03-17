@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Search</title>
+    <link href="{{ url_for('static', path='/css/movies.css') }}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<header>
+    <h1 class="logo_name">Movie Search</h1>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="{{ url_for('Search') }}">Movies</a></li>
+            <li><a href="#">TV</a></li>
+            <li><a href="#">Account</a></li>
+        </ul>
+    </nav>
+</header>
+<div class="header-main">
+    <h1 class="name">Movie Search</h1>
+</div>
+<div class="search-container">
+    <form autocomplete="off">
+        <input type="text" placeholder="Search for movies..." name="search" id="search-input">
+        <button type="submit" id="search-btn">Search</button>
+    </form>
+</div>
+<div class="cards-container"></div>
+<footer>
+    <p>&copy; 2023 Movie Search, Inc.</p>
+</footer>
+<script>
+    const searchInput = document.getElementById("search-input");
+    const searchBtn = document.getElementById("search-btn");
+    const cardsContainer = document.querySelector(".cards-container");
+    const serverHost = '{{ server_host }}';
+
+    searchBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const query = searchInput.value;
+        const response = await fetch(`http://${serverHost}/api/v1/films/search?query=${query}`);
+        const results = await response.json();
+        displayResults(results);
+    });
+
+    async function displayResults(results) {
+        cardsContainer.innerHTML = "";
+        if (results['detail'] === "film_not_found") {
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.innerHTML = `<div class="card-content"><p>No results found.</p></div>`;
+            cardsContainer.appendChild(card);
+        } else {
+            for (const result of results) {
+                const card = document.createElement("div");
+                card.classList.add("card");
+                const omdb = '{{ omdb_key }}'
+                const response = await fetch(`http://www.omdbapi.com/?apikey=${omdb}&t=${result.title}`);
+                console.log(omdb);
+                const data = await response.json();
+                const poster = data.Poster;
+                card.innerHTML = `
+                <div class="poster">
+                    <img src="${poster}" alt="">
+                    <div class="gradient"></div>
+                </div>
+                <a href="http://${serverHost}:8000/api/v1/movies/${result.uuid}">
+                <div class="card-content">
+                  <h2>${result.title}</h2>
+                  <p>IMDB Rating: ${result.imdb_rating}</p>
+                </div>
+                </a>
+              `;
+                // If no poster is available, show black-red gradient
+                const posterImg = card.querySelector(".poster img");
+                if (!poster || poster === "undefined") {
+                    posterImg.style.display = "none";
+                    const gradientDiv = card.querySelector(".gradient");
+                    gradientDiv.style.display = "block";
+                }
+                cardsContainer.appendChild(card);
+            }
+        }
+    }
+</script>
+<script>
+    const movieNames = ['The Godfather', 'The Dark Knight', 'Forrest Gump', 'Star Wars', 'Pulp Fiction', 'The Lord of the Rings', 'Fight Club', 'Inception', 'The Matrix', 'Goodfellas']
+    const nameElement = document.querySelector('.name');
+
+    function changeName() {
+        nameElement.style.opacity = 0;
+        setTimeout(() => {
+            const randomIndex = Math.floor(Math.random() * movieNames.length);
+            nameElement.textContent = movieNames[randomIndex];
+            nameElement.style.opacity = 1;
+        }, 500);
+    }
+
+    setInterval(changeName, 5000);
+
+</script>
+<script src="{{ url_for('static', path='/js/refresh_token.js') }}"></script>
+</body>
+</html>

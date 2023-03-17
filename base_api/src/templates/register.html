@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration</title>
+    <link href="{{ url_for('static', path='/css/auth.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+<div class="container">
+    <form autocomplete="off">
+        <h1>Sign Up</h1>
+        <input name="login" type="text" placeholder="Login" required>
+        <input name="first_name" type="text" placeholder="First Name" required>
+        <input name="last_name" type="text" placeholder="Last Name" required>
+        <input name="email" type="email" placeholder="Email" required>
+        <input name="password" type="password" placeholder="Password" required>
+        <p>Already have an account? <a href="{{ url_for('login') }}">Sign in now.</a></p>
+        <button type="submit">Sign Up</button>
+
+    </form>
+</div>
+<footer>
+    <p>&copy; 2023 Movie Search, Inc.</p>
+</footer>
+<script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();  // prevent the form from submitting normally
+
+        const serverHost = '{{ server_host }}';
+        const formData = new FormData(form);
+        const body = {
+            login: formData.get('login'),
+            password: formData.get('password'),
+            email: formData.get('email'),
+            first_name: formData.get('first_name'),
+            last_name: formData.get('last_name')
+        };
+        console.log(body)
+
+        console.log(serverHost)
+        const response = await fetch('http://' + serverHost + ':80/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body)
+        });
+
+        if (response.ok) {
+            // handle successful registration
+            const result = await Swal.mixin({
+                confirmButtonText: 'Login',
+                cancelButtonText: 'Continue',
+                confirmButtonColor: '#d33',
+
+
+            }).fire({
+                icon: 'success',
+                title: 'Registration Successful',
+                text: 'You have successfully registered!',
+                showCancelButton: true,
+                showCloseButton: true
+            });
+
+            if (result.isConfirmed) {
+                // redirect to login page
+                window.location.href = 'http://' + serverHost + ':8000/api/v1/login';
+            } else {
+                // continue with registration
+                form.reset();
+            }
+
+        } else if (response.status === 400) {
+            // handle user already exists error
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'User already exists!',
+
+            });
+        } else {
+            // handle other errors
+            console.error('Registration failed.');
+        }
+    });
+
+</script>
+</body>
+</html>

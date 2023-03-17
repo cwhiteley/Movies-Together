@@ -1,0 +1,132 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-17 15:19+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: movies/admin.py:7 movies/models.py:32 movies/models.py:91
+msgid "Genre"
+msgstr "Жанр"
+
+#: movies/admin.py:8 movies/models.py:33
+msgid "Genres"
+msgstr "Жанры фильмов"
+
+#: movies/admin.py:13 movies/models.py:82 movies/models.py:100
+msgid "Person"
+msgstr "Участник"
+
+#: movies/admin.py:14 movies/models.py:83
+msgid "Persons"
+msgstr "Участники фильма"
+
+#: movies/apps.py:8
+msgid "movies"
+msgstr "Фильмы"
+
+#: movies/models.py:8
+#, fuzzy
+#| msgid "creation_date"
+msgid "created"
+msgstr "Дата создания"
+
+#: movies/models.py:9
+#, fuzzy
+#| msgid "modified_date"
+msgid "modified"
+msgstr "Дата изменения"
+
+#: movies/models.py:24
+msgid "name"
+msgstr "Имя"
+
+#: movies/models.py:26 movies/models.py:43
+msgid "description"
+msgstr "Описание"
+
+#: movies/models.py:40
+msgid "certificate"
+msgstr "Сертификат"
+
+#: movies/models.py:41
+msgid "file"
+msgstr "Файл"
+
+#: movies/models.py:42
+msgid "title"
+msgstr "Заглавие"
+
+#: movies/models.py:44
+msgid "creation_date"
+msgstr "Дата создания"
+
+#: movies/models.py:47
+msgid "rating"
+msgstr "Рейтинг"
+
+#: movies/models.py:53 movies/models.py:64
+msgid "Movie"
+msgstr "Фильм"
+
+#: movies/models.py:54
+msgid "Tv_show"
+msgstr "ТВ шоу"
+
+#: movies/models.py:57
+msgid "type"
+msgstr "Тип"
+
+#: movies/models.py:65
+msgid "Movies"
+msgstr "Фильмы"
+
+#: movies/models.py:72
+msgid "male"
+msgstr "Мужчина"
+
+#: movies/models.py:73
+msgid "female"
+msgstr "Женщина"
+
+#: movies/models.py:77
+msgid "full_name"
+msgstr "Полное имя"
+
+#: movies/models.py:78
+msgid "gender"
+msgstr "Пол"
+
+#: movies/models.py:90 movies/models.py:99
+msgid "Film work"
+msgstr "Фильмы"
+
+#: movies/models.py:101
+msgid "role"
+msgstr "Роль"
+
+#~ msgid "content\".\"film_work"
+#~ msgstr "Фильмы"
+
+#~ msgid "Genre FilmWorks"
+#~ msgstr "Жанр"
+
+#, fuzzy
+#~| msgid "Persons"
+#~ msgid "Person FilmWorks"
+#~ msgstr "Люди"

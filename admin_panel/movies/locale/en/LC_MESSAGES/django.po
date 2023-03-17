@@ -1,0 +1,115 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-17 15:19+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: movies/admin.py:7 movies/models.py:32 movies/models.py:91
+msgid "Genre"
+msgstr ""
+
+#: movies/admin.py:8 movies/models.py:33
+msgid "Genres"
+msgstr ""
+
+#: movies/admin.py:13 movies/models.py:82 movies/models.py:100
+msgid "Person"
+msgstr ""
+
+#: movies/admin.py:14 movies/models.py:83
+msgid "Persons"
+msgstr ""
+
+#: movies/apps.py:8
+msgid "movies"
+msgstr ""
+
+#: movies/models.py:8
+msgid "created"
+msgstr ""
+
+#: movies/models.py:9
+msgid "modified"
+msgstr ""
+
+#: movies/models.py:24
+msgid "name"
+msgstr ""
+
+#: movies/models.py:26 movies/models.py:43
+msgid "description"
+msgstr ""
+
+#: movies/models.py:40
+msgid "certificate"
+msgstr ""
+
+#: movies/models.py:41
+msgid "file"
+msgstr ""
+
+#: movies/models.py:42
+msgid "title"
+msgstr ""
+
+#: movies/models.py:44
+msgid "creation_date"
+msgstr ""
+
+#: movies/models.py:47
+msgid "rating"
+msgstr ""
+
+#: movies/models.py:53 movies/models.py:64
+msgid "Movie"
+msgstr ""
+
+#: movies/models.py:54
+msgid "Tv_show"
+msgstr ""
+
+#: movies/models.py:57
+msgid "type"
+msgstr ""
+
+#: movies/models.py:65
+msgid "Movies"
+msgstr ""
+
+#: movies/models.py:72
+msgid "male"
+msgstr ""
+
+#: movies/models.py:73
+msgid "female"
+msgstr ""
+
+#: movies/models.py:77
+msgid "full_name"
+msgstr ""
+
+#: movies/models.py:78
+msgid "gender"
+msgstr ""
+
+#: movies/models.py:90 movies/models.py:99
+msgid "Film work"
+msgstr ""
+
+#: movies/models.py:101
+msgid "role"
+msgstr ""
