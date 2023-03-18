@@ -8,12 +8,12 @@ from bson import json_util
 class BaseStorage:
     @abc.abstractmethod
     def save_state(self, state: dict) -> None:
-        """Сохранить состояние в постоянное хранилище"""
+        """Save state to persistent storage"""
         pass
 
     @abc.abstractmethod
     def retrieve_state(self) -> dict:
-        """Загрузить состояние локально из постоянного хранилища"""
+        """Load state locally from persistent storage"""
         pass
 
 
@@ -37,7 +37,7 @@ class JsonFileStorage(BaseStorage):
             )
 
     def save_state(self, state: dict) -> None:
-        """Сохранить состояние в постоянное хранилище"""
+        """Save state to persistent storage"""
         with open(self.file_path, "r") as f:
             data = json.load(f)
             data.update(state)
@@ -46,7 +46,7 @@ class JsonFileStorage(BaseStorage):
             json.dump(data, f, default=json_util.default)
 
     def retrieve_state(self) -> dict:
-        """Загрузить состояние локально из постоянного хранилища"""
+        """Load state locally from persistent storage"""
         try:
             with open(self.file_path) as f:
                 data = json.load(f, object_hook=json_util.object_hook)
@@ -60,16 +60,16 @@ class JsonFileStorage(BaseStorage):
 
 class State:
     """
-    Класс для хранения состояния при работе с данными, чтобы постоянно не перечитывать данные с начала.
-    Здесь представлена реализация с сохранением состояния в файл.
-    В целом ничего не мешает поменять это поведение на работу с БД или распределённым хранилищем.
+    A class for storing state when working with data, so as not to constantly re-read the data from the beginning.
+    Here is a stateful-to-file implementation.
+    In general, nothing prevents changing this behavior to work with a database or distributed storage.
     """
 
     def __init__(self, storage: BaseStorage):
         self.storage = storage
 
     def set_state(self, key: str, value: Any) -> None:
-        """Установить состояние для определённого ключа"""
+        """Set the state for a specific key"""
         self.storage.save_state({key: value})
 
     def get_state(self, key: str) -> Any:
