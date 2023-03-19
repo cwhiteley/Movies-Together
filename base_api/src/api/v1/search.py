@@ -8,7 +8,10 @@ from core.config import settings
 
 router = APIRouter()
 
-templates = Jinja2Templates(directory=f"{ROOT_PATH}templates")
+if settings.debug:
+    templates = Jinja2Templates(directory=f"templates")
+else:
+    templates = Jinja2Templates(directory=f"{ROOT_PATH}templates")
 
 
 @router.get(

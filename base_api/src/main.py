@@ -27,7 +27,10 @@ app = FastAPI(
 )
 templates = Jinja2Templates(directory="templates")
 
-app.mount("/static", StaticFiles(directory=f"{ROOT_PATH}static"), name="static")
+if settings.debug:
+    app.mount("/static", StaticFiles(directory="static"), name="static")
+else:
+    app.mount("/static", StaticFiles(directory=f"{ROOT_PATH}static"), name="static")
 
 
 @app.on_event("startup")
