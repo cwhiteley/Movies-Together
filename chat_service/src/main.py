@@ -37,7 +37,6 @@ async def chat_endpoint(websocket: WebSocket):
         host=settings.redis.host, port=settings.redis.port, decode_responses=True
     )
     await websocket.accept()
-    user = await get_user(cokies=websocket.cookies)
     active_connections.add(websocket)
 
     # create chat id from websocket link
