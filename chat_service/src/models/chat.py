@@ -1,10 +1,10 @@
-from datetime import datetime
+from datetime import time
 from typing import Any, List
 
 from pydantic import BaseModel, Json, create_model
 
 class Message(BaseModel):
-    timestamp: datetime = None
+    timestamp: time = None
     user: str = None
     data: str = None
 
