@@ -7,7 +7,12 @@ from elasctic_saver import ElasticSaver, elasticsearch
 
 
 async def load_data():
-    """Load data from postgresql to elasticsearch"""
+    """
+    Load data from Postgres to Elasticsearch using asynchronous tasks.
+
+    The data is loaded using the ElasticSaver class, which saves the data to Elasticsearch.
+    This function creates three asynchronous tasks to save genres, filmworks, and persons data.
+    """
 
     elastic_saver = ElasticSaver(
         f"http://{settings.elastic.site}:{settings.elastic.port}"

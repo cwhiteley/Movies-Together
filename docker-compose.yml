@@ -9,14 +9,15 @@ services:
 
   movie_search:
     build: movie_search/src
+    hostname: ${MOVIE_SEARCH__HOST}
     restart: always
+    env_file:
+      - ./.env
     expose:
-      - "8000"
+      - ${MOVIE_SEARCH__PORT}
     depends_on:
       es01:
         condition: service_healthy
-    env_file:
-      - ./.env
 
   base_api:
       build:
@@ -24,6 +25,7 @@ services:
         dockerfile: Dockerfile
       image: base_api:latest
       container_name: base_api
+      restart: always
       depends_on:
         - cache
       ports:

@@ -130,5 +130,3 @@ class ElasticSaver:
                 logger.exception(err)
 
 
-if __name__ == "__main__":
-    print(settings.postgres_movies.dict())

@@ -25,6 +25,9 @@
     <h1 class="logo_name">Movie Search</h1>
     <nav>
         <ul>
+            {% if is_owner %}
+                <button id="hide-control-box" onclick="toggleControlBox()">Show control panel</button>
+            {% endif %}
             <li><a href="#">Home</a></li>
             <li><a href="{{ url_for('Search') }}">Movies</a></li>
             <li><a href="#">TV</a></li>
@@ -34,14 +37,14 @@
 </header>
 <div class="video-container">
     <div class="control-box">
-    <h3>Control panel</h3>
-    <form id="panel by owner">
-    <input id="name_client" type="text" placeholder="User name">
-    <select id="control_command">
-      <option>Delete user</option>
-    </select>
-    <button type="button" onclick="executeControl(event)">Execute</button>
-    </form>
+        <h3>Control panel</h3>
+        <form id="panel by owner">
+            <input id="name_client" type="text" placeholder="User name">
+            <select id="control_command">
+                <option id="delete_option">Delete user</option>
+            </select>
+            <button type="button" onclick="executeControl(event)">Execute</button>
+        </form>
     </div>
     <video
             id="my-video"
@@ -51,7 +54,7 @@
             preload="auto"
             width="640"
             height="400"
-            poster="https://www.universalpictures.com/assets/img/universal-share.jpg"
+            poster="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/09B5E23DC281415A7B14D33D4EA08D52A4E74AD6FCB9E6C9FC604AF6910054F4/scale?width=1200&aspectRatio=1.78&format=jpeg"
             data-setup="{}">
 
         <source src="/api/v1/stream/{{ film_id }}" type="video/mp4"/>
@@ -62,8 +65,8 @@
         </p>
     </video>
 
-
     <div class="chat-box">
+
         <h2>Chat</h2>
         <div id="messages">
             <!-- Add more messages here -->
@@ -78,5 +81,21 @@
 <script src="{{ url_for('static', path='/js/owner_control.js') }}"></script>
 <script src="{{ url_for('static', path='/js/video.js') }}"></script>
 <script src="{{ url_for('static', path='/js/refresh_token.js') }}"></script>
+
+<script>
+    function toggleControlBox() {
+        const controlBox = document.querySelector('.control-box');
+        if (controlBox.style.display === 'flex') {
+            controlBox.style.display = 'none';
+            document.getElementById('hide-control-box').innerHTML = 'Show control panel';
+        } else {
+            controlBox.style.display = 'flex';
+            document.getElementById('hide-control-box').innerHTML = 'Hide control panel';
+        }
+    }
+
+
+</script>
 </body>
+
 </html>
