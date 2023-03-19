@@ -20,7 +20,9 @@ templates = Jinja2Templates(directory=f"{ROOT_PATH}templates")
     response_description="Return link to stream.",
 )
 async def path(
-        film_id: str, service: GroupsService = Depends(get_groups_service), payload=Depends(verify_token)
+    film_id: str,
+    service: GroupsService = Depends(get_groups_service),
+    payload=Depends(verify_token),
 ) -> JSONResponse:
     link = await service.create_chat(film_id=film_id, user_id=payload.get("user_id"))
     return JSONResponse(content={"link": link}, status_code=200)
@@ -33,8 +35,10 @@ async def path(
     response_description="Return status.",
 )
 async def path(
-        link_id: str, request: Request, service: GroupsService = Depends(get_groups_service),
-        payload=Depends(verify_token)
+    link_id: str,
+    request: Request,
+    service: GroupsService = Depends(get_groups_service),
+    payload=Depends(verify_token),
 ):
     data = await service.get_data_from_cache(link_id)
     film_id = data.get("film_id")
@@ -47,7 +51,7 @@ async def path(
         "player_chat.html",
         {
             "request": request,
-            "user_owner": data.get("user_id"),
+            "user_owner": data.get("user"),
             "control_host": settings.base_api.host,
             "control_port": settings.base_api.port,
             "video_host": settings.video_service.host,
@@ -60,5 +64,7 @@ async def path(
             "film_id": f"{film_id}",
             "server_host": settings.server_host,
             "username": f"{payload.get('username')}",
+            "user_id": f"{payload.get('user_id')}",
+            "is_owner": payload.get("user_id") == data.get("user"),
         },
     )
