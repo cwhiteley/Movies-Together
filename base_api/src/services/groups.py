@@ -3,7 +3,7 @@ from functools import lru_cache
 from json import dumps, loads
 
 from redis.asyncio import Redis as aio_redis
-from db.redis_cache import Redis, get_cache_conn
+from db.cache_db import Redis, get_cache_conn
 from fastapi import Depends
 
 
@@ -13,11 +13,11 @@ class GroupsService(Redis):
 
     async def create_chat(self, film_id: str, user_id: str):
         link_key = await self.create_key([film_id, user_id])
-        # TODO create socket server for chat
-        # add information for connection to redis
         await self.set_cache(
             key=link_key,
-            data=dumps({"film_id": film_id, "user": user_id, "clients": [], "black_list": []}),
+            data=dumps(
+                {"film_id": film_id, "user": user_id, "clients": [], "black_list": []}
+            ),
         )
         return link_key
 
@@ -35,6 +35,5 @@ class GroupsService(Redis):
         return True
 
 
-# @lru_cache()
 async def get_groups_service(redis_conn: aio_redis = Depends(get_cache_conn)):
     return GroupsService(redis_conn)

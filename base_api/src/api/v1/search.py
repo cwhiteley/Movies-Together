@@ -8,7 +8,10 @@ from core.config import settings
 
 router = APIRouter()
 
-templates = Jinja2Templates(directory=f"{ROOT_PATH}templates")
+if settings.debug:
+    templates = Jinja2Templates(directory=f"templates")
+else:
+    templates = Jinja2Templates(directory=f"{ROOT_PATH}templates")
 
 
 @router.get(
@@ -31,7 +34,21 @@ async def search_movie(request: Request, payload=Depends(verify_token)):
 
 @router.get("/{film_id}", summary="Get film by id")
 async def movie_details(request: Request, film_id: str):
-    movie = requests.get(f"http://127.0.0.1:80/api/v1/movies/{film_id}").json()
+    try:
+        # Get movie details from an external API
+        movie = requests.get(
+            f"http://{settings.server_host}/api/v1/movies/{film_id}"
+        ).json()
+    except Exception:
+        # If the external API is down, return mock data to allow
+        # the user to still generate a link for watching movies
+        movie = {
+            "title": "404",
+            "rating": "404",
+            "creation_date": "2004",
+            "genres": ["404"],
+        }
+
     return templates.TemplateResponse(
         "movie.html",
         {

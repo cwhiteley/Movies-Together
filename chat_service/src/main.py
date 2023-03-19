@@ -11,7 +11,7 @@ from redis import asyncio as aioredis
 from pydantic.json import pydantic_encoder
 
 from core.config import settings
-from chat_service.src.db import redis_cache
+from db import redis_cache
 from redis.asyncio import Redis
 from models.chat import Chat, Message
 
@@ -27,7 +27,6 @@ app = FastAPI(
 
 active_connections = set()
 redis_conn = Redis
-
 
 
 @app.websocket("/api/v1/groups/ws/chat/{link_id}")
