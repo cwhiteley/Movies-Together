@@ -5,7 +5,7 @@ Movies Together is a Python-based web application that allows you to watch movie
 ## Features
 Movies Together has several unique and exciting features that set it apart from other movie-watching platforms. These features include:
 
-![img](examples/Architecture.png)
+![img](architecture/Architecture.png)
 
 
 ### Django Admin Panel

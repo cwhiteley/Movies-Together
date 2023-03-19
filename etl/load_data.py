@@ -1,8 +1,9 @@
 import asyncio
 import subprocess
+from time import sleep
 
 from config import settings
-from elastic_saver import ElasticSaver
+from elasctic_saver import ElasticSaver, elasticsearch
 
 
 async def load_data():
@@ -13,29 +14,23 @@ async def load_data():
     This function creates three asynchronous tasks to save genres, filmworks, and persons data.
     """
 
-    elastic_saver = ElasticSaver(f"http://{settings.elastic.site}:{settings.elastic.port}")
+    elastic_saver = ElasticSaver(
+        f"http://{settings.elastic.site}:{settings.elastic.port}"
+    )
 
-    tasks = [
-        asyncio.create_task(elastic_saver.save_genres_data()),
-        asyncio.create_task(elastic_saver.save_filmwork_data(bunch_size=400)),
-        asyncio.create_task(elastic_saver.save_persons_data(bunch_size=500)),
-    ]
+    task = asyncio.create_task(elastic_saver.save_genres_data())
+    task2 = asyncio.create_task(elastic_saver.save_filmwork_data(bunch_size=400))
+    task3 = asyncio.create_task(elastic_saver.save_persons_data(bunch_size=500))
+    await task
+    await task2
+    await task3
 
-    await asyncio.gather(*tasks)
 
-
-def create_elasticsearch_indexes():
-    """
-    Create Elasticsearch indexes using the create_elastic_indexes.sh script.
-    """
+def create_elasctic_indexes():
     subprocess.run(["sh", "create_elastic_indexes.sh"])
 
 
 if __name__ == "__main__":
-    create_elasticsearch_indexes()
-
-    # Wait for a few seconds for Elasticsearch to start
-    asyncio.sleep(5)
-
-    # Load data from Postgres to Elasticsearch
+    create_elasctic_indexes()
+    sleep(2)
     asyncio.run(load_data())
