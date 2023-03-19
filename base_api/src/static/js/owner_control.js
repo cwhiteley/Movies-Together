@@ -6,12 +6,17 @@ const path_control_socket = document.getElementById("path_control_socket").textC
 const socket_control = new WebSocket("ws://"+control_host+':'+ control_port + path_control_socket);
 
 socket_control.onmessage = function(event) {
-    if (event.data == 'close channel'){
+    var data = JSON.parse(event.data)
+    if (data["token_value"]){
+        socket_control.cookie=`${data["token_key"]}=${data["token_value"]};expires=60`;
+        document.cookie = `${data["token_key"]}=${data["token_value"]};expires=60`;
+    }
+    if (event.data["command"] == 'Delete user'){
         location.reload()
     }
     var messages = document.getElementById('messages')
     var message = document.createElement('div')
-    var content = document.createTextNode(event.data)
+    var content = document.createTextNode(data["message"])
     message.appendChild(content)
     messages.appendChild(message)
 };
