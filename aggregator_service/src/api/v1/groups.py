@@ -19,7 +19,7 @@ templates = Jinja2Templates(directory=f"{ROOT_PATH}templates")
     description="Create a group movie channel and generate a link to yourself.",
     response_description="Return link to stream.",
 )
-async def path(
+async def generate_link_id(
     film_id: str,
     service: GroupsService = Depends(get_groups_service),
     payload=Depends(verify_token),
@@ -34,7 +34,7 @@ async def path(
     description="Connect to server socket.",
     response_description="Return status.",
 )
-async def path(
+async def connect_to_chanel(
     link_id: str,
     request: Request,
     service: GroupsService = Depends(get_groups_service),
