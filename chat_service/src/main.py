@@ -14,6 +14,7 @@ from core.config import settings
 from db import redis_cache
 from redis.asyncio import Redis
 from models.chat import Chat, Message
+from utils.get_history import get_history
 
 logging.basicConfig(level=logging.INFO)
 
@@ -29,8 +30,9 @@ active_connections = set()
 redis_conn = Redis
 
 
+'''вебсокет чата: присоединяемся  к вебсокету, проверяем или создаем запись с историей чата, отправляем-принимаем сообщения чата'''
 @app.websocket("/api/v1/groups/ws/chat/{link_id}")
-async def websocket_endpoint(websocket: WebSocket):
+async def chat_endpoint(websocket: WebSocket):
     redis_conn = await aioredis.Redis(
         host=settings.redis.host, port=settings.redis.port, decode_responses=True
     )
@@ -42,12 +44,7 @@ async def websocket_endpoint(websocket: WebSocket):
     link_id = re.search(r"chat\/([\w-]+)", websocket.url.path).group(1)
     chat = Chat(id=f"chat{link_id}")
     # get chat history, if there is a history, send history to joined user"""
-    history = await redis_conn.get(chat.id)
-    if history:
-        chat.messages = json.loads(history)
-        for message in chat.messages:
-            message = Message(**message)
-            await websocket.send_text(f"{message.timestamp}: User_{message.user}: {message.data}")
+    await get_history(redis_conn=redis_conn, websocket=websocket, chat=chat)
 
     try:
         while True:
@@ -55,7 +52,6 @@ async def websocket_endpoint(websocket: WebSocket):
             message = Message(**data)
             message.timestamp = datetime.now().time().replace(microsecond=0)
             for connection in active_connections:
-                # await connection.send_text(f"{user}: {message['data']}")
                 await connection.send_text(f"{message.timestamp}: User_{message.user}: {message.data}")
                 # update and record chat history into cache storage (redis)
                 chat.messages.append(message)
@@ -66,12 +62,3 @@ async def websocket_endpoint(websocket: WebSocket):
         active_connections.remove(websocket)
     if redis_cache.redis_conn is not None:
         await redis_cache.redis_conn.close()
-
-
-if __name__ == "__main__":
-    uvicorn.run(
-        "main:app",
-        host=settings.chat_service.host,
-        port=settings.chat_service.port,
-        reload=True,
-    )
