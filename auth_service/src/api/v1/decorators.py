@@ -8,13 +8,11 @@ import jwt
 import pydantic
 from flask import request
 from opentelemetry import trace
-
 from src.api.v1 import schemas
 from src.core import exceptions
 from src.core.config import settings
 from src.db.cache import cache
 from src.db.postgres import db_session
-
 
 tracer = trace.get_tracer(__name__)
 

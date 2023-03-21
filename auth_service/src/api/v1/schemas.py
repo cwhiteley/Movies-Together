@@ -3,7 +3,6 @@
 from datetime import datetime
 
 from pydantic import BaseModel, Field, PositiveInt, root_validator, validator
-
 from src.core.config import settings
 
 

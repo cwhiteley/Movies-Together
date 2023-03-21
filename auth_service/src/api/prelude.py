@@ -2,7 +2,7 @@
 
 import json
 
-from flask import Request, _request_ctx_stack, request
+from flask import Request, _request_ctx_stack
 from werkzeug.exceptions import BadRequest
 
 

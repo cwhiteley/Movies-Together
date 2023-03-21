@@ -1,18 +1,16 @@
 import json
 import logging
-from datetime import datetime
 import re
+from datetime import datetime
 
-import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import ORJSONResponse
-from utils.user import get_user
-from redis import asyncio as aioredis
 from pydantic.json import pydantic_encoder
+from redis import asyncio as aioredis
+from redis.asyncio import Redis
 
 from core.config import settings
 from db import redis_cache
-from redis.asyncio import Redis
 from models.chat import Chat, Message
 from utils.get_history import get_history
 

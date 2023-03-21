@@ -6,9 +6,7 @@ from abc import ABC, abstractmethod
 
 from Cryptodome.Hash import SHA256
 from Cryptodome.Protocol.KDF import PBKDF2
-
 from src.api.v1.decorators import trace
-
 
 RANDOM_STRING_CHARS = (
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

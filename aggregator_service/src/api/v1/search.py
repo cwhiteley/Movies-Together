@@ -1,9 +1,9 @@
-from core.config import ROOT_PATH
 import requests
+from api.v1.utils import verify_token
 from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
 
-from api.v1.utils import verify_token
+from core.config import ROOT_PATH
 from core.config import settings
 
 router = APIRouter()

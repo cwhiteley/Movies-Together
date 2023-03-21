@@ -3,14 +3,12 @@
 from http import HTTPStatus
 
 from flask import Blueprint, request
-
 from src.api.v1 import schemas
 from src.api.v1.decorators import (exception_wrapper, rate_limit,
                                    request_body_validation,
                                    required_permissions)
 from src.db.uow import uow
 from src.services.permissions import PermissionService, get_permission_service
-
 
 permission_routes = Blueprint(
     "permission_routes", __name__, url_prefix="/api/v1"

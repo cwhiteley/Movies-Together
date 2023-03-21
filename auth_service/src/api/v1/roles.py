@@ -3,7 +3,6 @@
 from http import HTTPStatus
 
 from flask import Blueprint, request
-
 from src.api.v1 import schemas
 from src.api.v1.decorators import (exception_wrapper, rate_limit,
                                    request_body_validation,
@@ -11,7 +10,6 @@ from src.api.v1.decorators import (exception_wrapper, rate_limit,
 from src.db.uow import uow
 from src.services.permissions import PermissionService, get_permission_service
 from src.services.roles import RoleService, get_role_service
-
 
 role_routes = Blueprint("role_routes", __name__, url_prefix="/api/v1")
 

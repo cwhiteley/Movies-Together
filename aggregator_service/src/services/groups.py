@@ -1,10 +1,8 @@
-import logging
-from functools import lru_cache
 from json import dumps, loads
 
-from redis.asyncio import Redis as aio_redis
 from db.cache_db import Redis, get_cache_conn
 from fastapi import Depends
+from redis.asyncio import Redis as aio_redis
 
 
 class GroupsService(Redis):

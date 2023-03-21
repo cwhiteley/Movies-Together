@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Request
 from fastapi.templating import Jinja2Templates
+
 from core.config import ROOT_PATH, settings
 
 router = APIRouter()

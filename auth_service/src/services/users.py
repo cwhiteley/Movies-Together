@@ -4,7 +4,6 @@ from secrets import choice as secrets_choice
 
 import jwt
 from sqlalchemy.orm import subqueryload
-
 from src.api.v1.decorators import trace
 from src.core.config import settings
 from src.core.exceptions import LoginPasswordWrongException

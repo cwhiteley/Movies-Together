@@ -1,8 +1,8 @@
 import os
 import sys
 
-from flask_cors import CORS
 from flask import Flask
+from flask_cors import CORS
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 
 FLASK_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -17,7 +17,6 @@ from src.api.v1.roles import role_routes
 from src.api.v1.users import user_routes
 from src.cli.users import user_commands
 from src.db.cache import init_cache
-from src.tools.tracer import configure_tracer
 
 # configure_tracer()
 
