@@ -1,7 +1,8 @@
 from datetime import time
-from typing import Any, List
+from typing import List
 
-from pydantic import BaseModel, Json, create_model
+from pydantic import BaseModel
+
 
 class Message(BaseModel):
     timestamp: time = None

@@ -2,8 +2,7 @@
 
 body {
     font-family: "Montserrat", sans-serif;
-
-    background-color: #121212;
+    background-color: #141414;
 }
 
 input[type="text"] {
@@ -24,49 +23,13 @@ button[type="button"] {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
-.control-box {
-    left: 30px;
-    width: 25%;
-    background-color: #121212;
-    padding: 20px;
-    border-radius: 10px;
-    position: absolute;
-    top: 30px;
-    margin-top: 0;
-}
-
-.control-box input{
-    width: 30%;
-    height: 30px;
-}
-
-.control-box select{
-    width: 30%;
-    height: 30px;
-    background-color: #121212;
-    color: white;
-    border: #121212;
-}
-
-.control-box button[type="button"] {
-    margin-left: 20px;
-    width: 30%;
-    height: 30px;
-}
-
-.control-box h3 {
-    text-align: center;
-    font-size: 18px;
-    margin-bottom: 20px;
-    color: #fff;
-}
 
 .video-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 100vh;
-    background-color: black;
+    background-color: #141414;
     color: white;
     border-radius: 10px;
 }
@@ -87,12 +50,11 @@ button[type="button"] {
     position: relative;
     width: 25%;
     height: 80%;
-        background-color: black;
+    background-color: black;
 
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    /*color: #e50914;*/
+    box-shadow: 0px 0px 5px red;
 }
 
 .chat-box h2 {
@@ -401,4 +363,121 @@ nav a {
 
 nav a:hover {
     color: #e50914;
+}
+
+.control-box select {
+    height: 100%;
+}
+
+.control-box {
+    box-shadow: 0px 0px 3px white;
+    position: absolute;
+    display: none;
+    top: auto;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 2;
+    width: 40%;
+    height: 30%;
+    max-width: 600px;
+}
+
+.control-box h3 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.control-box form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.control-box input[type="text"],
+.control-box select {
+    font-size: 16px;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: none;
+    background-color: #1c1c1c;
+    color: #fff;
+}
+
+.control-box input[type="text"]:focus,
+.control-box select:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.control-box button {
+    font-size: 16px;
+    padding: 10px;
+    display: flex;
+    border-radius: 5px;
+    border: none;
+    box-shadow: none;
+    background-color: #e50914;
+    color: #fff;
+    width: 100%;
+    cursor: pointer;
+}
+
+.control-box button:hover {
+    background-color: darkred;
+}
+
+#hide-control-box {
+    font-family: "Montserrat", sans-serif;
+    background-color: #141414;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0px 0px 5px red;
+    color: #e50914;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 400;
+}
+
+#hide-control-box:hover {
+}
+
+#hide-control-box.show {
+    display: block;
+}
+
+#hide-control-box.hide {
+    display: none;
+}
+
+@media screen and (max-width: 968px) {
+    .control-box {
+        width: 80%;
+        height: 50%;
+    }
+
+    .control-box input[type="text"],
+    .control-box select {
+        width: 50%;
+        margin-right: 5px;
+    }
+
+    .control-box button {
+        width: 40%;
+    }
 }

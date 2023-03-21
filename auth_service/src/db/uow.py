@@ -2,7 +2,6 @@ import abc
 import re
 
 import sqlalchemy
-
 from src.core import exceptions
 from src.db.postgres import db_session
 

@@ -3,7 +3,6 @@
 from http import HTTPStatus
 
 from flask import Blueprint, request
-
 from src.api.v1 import schemas
 from src.api.v1.decorators import (exception_wrapper, rate_limit,
                                    request_body_validation,
@@ -12,7 +11,6 @@ from src.db.uow import uow
 from src.services.devices import DeviceService, get_device_service
 from src.services.login_histories import (LoginHistoryService,
                                           get_login_history_service)
-
 
 device_routes = Blueprint("device_routes", __name__, url_prefix="/api/v1")
 

@@ -3,7 +3,6 @@
 from http import HTTPStatus
 
 from flask import Blueprint, request
-
 from src.api.v1 import schemas
 from src.api.v1.decorators import (exception_wrapper, extract_query_parameters,
                                    rate_limit, request_body_validation,
@@ -13,7 +12,6 @@ from src.services.login_histories import (LoginHistoryService,
                                           get_login_history_service)
 from src.services.roles import RoleService, get_role_service
 from src.services.users import UserService, get_user_service
-
 
 user_routes = Blueprint("user_routes", __name__, url_prefix="/api/v1")
 

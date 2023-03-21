@@ -1,8 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, Request
-
 from api.tools import validate_not_found
 from api.v1.schemes import FullPerson, ShortFilm, ShortPerson
 from db.redis import redis_cache
+from fastapi import APIRouter, Depends, Query, Request
 from services.film import FilmService, get_film_service
 from services.person import PersonService, get_person_service
 

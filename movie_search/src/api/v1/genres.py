@@ -1,8 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, Request
-
 from api.tools import validate_not_found
 from api.v1.schemes import Genre
 from db.redis import redis_cache
+from fastapi import APIRouter, Depends, Request
 from services.genre import GenreService, get_genre_service
 
 FILM_CACHE_EXPIRE_IN_SECONDS = 60

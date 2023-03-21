@@ -1,7 +1,8 @@
-from models.video_context import VideoContext
-from db.cache import RedisClient
 import asyncio
 import json
+
+from db.cache import RedisClient
+from models.video_context import VideoContext
 
 
 async def save_viewing_time(

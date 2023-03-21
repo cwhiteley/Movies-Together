@@ -2,7 +2,6 @@ from abc import ABC
 
 from aioredis import Redis
 from elasticsearch import AsyncElasticsearch
-
 from models.base import CinemaModel
 from services.tools import make_elastic_params, not_found_error
 

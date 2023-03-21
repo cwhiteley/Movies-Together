@@ -39,12 +39,18 @@ class Token(BaseSettings):
     refresh_lifetime: int
     algo: str
 
+class TokenGroupView(BaseSettings):
+    algo: str
+    secret_key: str
+    access_lifetime: int
+
 
 class Settings(BaseSettings):
     server_host: str
     secret_key: str
 
     token: Token
+    token_group_view: TokenGroupView
     base_api: BaseApi
     chat_service: ChatService
     video_service: VideoService

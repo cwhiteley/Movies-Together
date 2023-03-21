@@ -1,8 +1,6 @@
 import asyncio
 import logging
-from contextlib import closing
 from datetime import datetime
-from time import sleep
 from typing import Optional
 from uuid import UUID
 
@@ -12,7 +10,6 @@ from psycopg.rows import class_row
 from pydantic import BaseModel, validator
 
 import app_logger
-from config import settings
 from state import JsonFileStorage, State
 
 state = State(JsonFileStorage("my_state"))

@@ -3,8 +3,6 @@ import logging
 import backoff
 import redis as redis_bibl
 import uvicorn
-from api.v1 import groups, stream, search, auth, control
-from core.config import ROOT_PATH
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
@@ -12,9 +10,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from redis import asyncio as aioredis
 
+from api.v1 import control
 from api.v1 import groups, stream, search, auth
+from core.config import ROOT_PATH
 from core.config import settings
-from db import redis_cache
+from db import cache_db
 
 logging.basicConfig(level=logging.INFO)
 
@@ -41,20 +41,19 @@ else:
     max_tries=10,
 )
 async def startup():
-    redis_cache.redis_conn = await aioredis.Redis(
+    cache_db.redis_conn = await aioredis.Redis(
         host=settings.redis.host, port=settings.redis.port, decode_responses=True
     )
-    await redis_cache.redis_conn.ping()
+    await cache_db.redis_conn.ping()
 
     logging.info("Create connections")
 
 
 @app.on_event("shutdown")
 async def shutdown():
-    if redis_cache.redis_conn is not None:
-        await redis_cache.redis_conn.close()
-    logging.info("Closed connections")\
-
+    if cache_db.redis_conn is not None:
+        await cache_db.redis_conn.close()
+    logging.info("Closed connections")
 
 
 origins = ["*"]
@@ -77,14 +76,16 @@ async def http_exception_handler(request, exc):
 app.include_router(groups.router, prefix="/api/v1/groups", tags=["Group views"])
 app.include_router(stream.router, prefix="/api/v1/stream", tags=["Stream film"])
 app.include_router(search.router, prefix="/api/v1/movies", tags=["Search film"])
-app.include_router(control.router, prefix="/api/v1/control", tags=["Control panel for owner"])
+app.include_router(
+    control.router, prefix="/api/v1/control", tags=["Control panel for owner"]
+)
 app.include_router(auth.router, prefix="/api/v1", tags=["Auth"])
 
 if __name__ == "__main__":
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
-        # host=settings.base_api.host,
+        # host=settings.aggregator_service.host,
         port=settings.base_api.port,
         reload=True,
     )

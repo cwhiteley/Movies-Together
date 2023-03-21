@@ -19,12 +19,12 @@ services:
       es01:
         condition: service_healthy
 
-  base_api:
+  aggregator_service:
       build:
-        context: ./base_api
+        context: aggregator_service
         dockerfile: Dockerfile
-      image: base_api:latest
-      container_name: base_api
+      image: aggregator_service:latest
+      container_name: aggregator_service
       restart: always
       depends_on:
         - cache

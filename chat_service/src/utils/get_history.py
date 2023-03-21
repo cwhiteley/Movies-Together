@@ -1,6 +1,6 @@
 import json
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import WebSocket
 from redis.asyncio import Redis
 
 from models.chat import Chat, Message

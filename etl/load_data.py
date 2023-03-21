@@ -3,7 +3,7 @@ import subprocess
 from time import sleep
 
 from config import settings
-from elasctic_saver import ElasticSaver, elasticsearch
+from elasctic_saver import ElasticSaver
 
 
 async def load_data():

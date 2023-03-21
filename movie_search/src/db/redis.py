@@ -1,6 +1,4 @@
 import functools
-import hashlib
-from typing import Optional
 
 from aioredis import Redis
 from fastapi import Request

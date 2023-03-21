@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from fastapi.responses import FileResponse
+
 from core.config import ROOT_PATH
 
 router = APIRouter()

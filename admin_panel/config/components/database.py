@@ -1,5 +1,3 @@
-import os
-
 from config.config import settings
 
 
