@@ -1,9 +1,8 @@
 import functools
 from typing import Any
 
-from elasticsearch import NotFoundError
-
 from db.elastic import Query, QueryTree
+from elasticsearch import NotFoundError
 
 
 def make_elastic_params(

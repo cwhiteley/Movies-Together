@@ -1,9 +1,8 @@
 import os
 from logging import config as logging_config
 
-from pydantic import BaseModel, BaseSettings
-
 from core.logger import LOGGING
+from pydantic import BaseModel, BaseSettings
 
 # Применяем настройки логирования
 logging_config.dictConfig(LOGGING)

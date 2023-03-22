@@ -5,7 +5,6 @@ from enum import Enum
 from http import HTTPStatus
 
 from flask import Blueprint, abort, current_app, redirect, request
-
 from src.api.v1 import schemas
 from src.api.v1.auth import login_by_user
 from src.api.v1.decorators import (exception_wrapper, extract_query_parameters,
@@ -17,7 +16,6 @@ from src.services.oauth_requests import (OAuthRequestService,
 from src.services.social_accounts import (SocialAccountService,
                                           get_social_account_service)
 from src.services.users import UserService, get_user_service
-
 
 oauth_routes = Blueprint("oauth_routes", __name__, url_prefix="/api")
 

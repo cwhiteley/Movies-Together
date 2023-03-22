@@ -1,9 +1,8 @@
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends, Request
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends
 from services.groups import GroupsService, get_groups_service
+
 from utils.user import get_user_and_token
-from typing import Optional
 import json
-import orjson
 
 router = APIRouter()
 

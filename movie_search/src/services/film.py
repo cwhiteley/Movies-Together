@@ -1,14 +1,14 @@
 from functools import lru_cache
 
 from aioredis import Redis
-from elasticsearch import AsyncElasticsearch, NotFoundError
-from fastapi import Depends
-
-from core.config import settings
 from db.elastic import get_elastic
 from db.redis import get_redis
+from elasticsearch import AsyncElasticsearch
+from fastapi import Depends
 from models.film import Film
 from services.base import BaseService
+
+from core.config import settings
 
 
 class FilmService(BaseService):

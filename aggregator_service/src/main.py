@@ -3,8 +3,6 @@ import logging
 import backoff
 import redis as redis_bibl
 import uvicorn
-from api.v1 import groups, stream, search, auth, control
-from core.config import ROOT_PATH
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
@@ -12,7 +10,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from redis import asyncio as aioredis
 
+from api.v1 import control
 from api.v1 import groups, stream, search, auth
+from core.config import ROOT_PATH
 from core.config import settings
 from db import cache_db
 

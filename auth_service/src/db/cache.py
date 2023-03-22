@@ -3,7 +3,6 @@
 from abc import ABC, abstractmethod
 
 import redis
-
 from src.core.config import settings
 
 

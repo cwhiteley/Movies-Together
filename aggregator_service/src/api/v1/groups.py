@@ -1,12 +1,11 @@
-import os
+from api.v1.utils import verify_token
 from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
-from starlette.responses import JSONResponse
-from core.config import ROOT_PATH
-
-from core.config import settings
 from services.groups import GroupsService, get_groups_service
-from api.v1.utils import verify_token
+from starlette.responses import JSONResponse
+
+from core.config import ROOT_PATH
+from core.config import settings
 
 router = APIRouter()
 

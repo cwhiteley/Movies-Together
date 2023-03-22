@@ -1,9 +1,8 @@
-from core.config import settings
-from faker import Faker
-from db.cache_db import Redis
-import logging
 import jwt
+from faker import Faker
 from fastapi.exceptions import HTTPException
+
+from core.config import settings
 
 
 def verify_token_group_view(token: str, secret_key: str, algorithms: list):

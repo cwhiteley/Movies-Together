@@ -1,7 +1,6 @@
 import time
 
 from sqlalchemy.orm import subqueryload
-
 from src.db.cache import cache
 from src.db.uow import AbstractUnitOfWork
 from src.models.login_history import LoginHistory
