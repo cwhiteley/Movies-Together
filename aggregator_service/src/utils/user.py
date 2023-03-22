@@ -1,6 +1,6 @@
 from core.config import settings
 from faker import Faker
-from db.redis_cache import Redis
+from db.cache_db import Redis
 import logging
 import jwt
 from fastapi.exceptions import HTTPException
@@ -13,7 +13,7 @@ def verify_token_group_view(token: str, secret_key: str, algorithms: list):
         )
         return payload
     except jwt.exceptions.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="Access token expired")
+        return None
     except jwt.exceptions.DecodeError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
@@ -27,20 +27,22 @@ def create_token_group_view(user: str):
     return access_token
 
 
-def get_user_and_token(cokies: dict, link: str):
+def get_user_and_token(params: dict, link: str):
     user = None
-    if cokies.get("link"):
-        payload = verify_token_group_view(token=cokies.get("link"),
+    if params.get(link):
+        payload = verify_token_group_view(token=params.get(link),
                                           secret_key=settings.token_group_view.secret_key,
                                           algorithms=[settings.token_group_view.algo]
                                           )
-        return payload.get("user_id"), cokies.get("link").decode('utf-8')
-    if cokies.get("access_token"):
-        payload = verify_token_group_view(token=cokies.get("access_token"),
+        if payload:
+            return payload.get("user_id"), params.get(link).decode('utf-8')
+    if params.get("access_token"):
+        payload = verify_token_group_view(token=params.get("access_token"),
                                           secret_key=settings.secret_key,
                                           algorithms=[settings.token.algo]
                                           )
-        user = payload.get("user_id")
+        if payload:
+            user = payload.get("user_id")
     if not user:
         user = Faker().first_name()
     token = create_token_group_view(user)
