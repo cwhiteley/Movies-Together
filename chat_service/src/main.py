@@ -30,9 +30,19 @@ app = FastAPI(
 active_connections = set()
 
 
-'''вебсокет чата: присоединяемся  к вебсокету, проверяем или создаем запись с историей чата, отправляем-принимаем сообщения чата'''
 @app.websocket("/api/v1/groups/ws/chat/{link_id}")
 async def chat_endpoint(websocket: WebSocket, link_id: str):
+    """
+    WebSocket endpoint for chat functionality.
+
+    Connects to the WebSocket, checks if a chat history record exists for the provided link ID,
+    and creates one if it doesn't. Enables sending and receiving chat messages via the WebSocket.
+
+    Args:
+        websocket (WebSocket): An instance of the WebSocket class provided by FastAPI.
+        link_id (str): The ID of the chat history record to be accessed or created.
+    """
+
     redis_conn = await aioredis.Redis(
         host=settings.redis.host, port=settings.redis.port, decode_responses=True
     )
@@ -41,15 +51,15 @@ async def chat_endpoint(websocket: WebSocket, link_id: str):
     cache_data = json.loads(cache_not_parse)
     user, view_token = get_user_and_token(params=websocket.query_params, link=link_id)
 
-    # если пользователь есть в black_list, то не пускаю
+    # Check if the user is in the blacklist and deny access if they are
     if view_token not in cache_data["black_list"] and not websocket.query_params.get(link_id):
         await websocket.accept()
         active_connections.add(websocket)
 
-        # create chat id from websocket link
+        # Create chat id from websocket link
         link_id = re.search(r"chat\/([\w-]+)", websocket.url.path).group(1)
         chat = Chat(id=f"chat{link_id}")
-        # get chat history, if there is a history, send history to joined user"""
+        # Get chat history, if there is a history, send history to joined user"""
         await get_history(redis_conn=redis_conn, websocket=websocket, chat=chat)
 
         try:
@@ -59,7 +69,7 @@ async def chat_endpoint(websocket: WebSocket, link_id: str):
                 message.timestamp = datetime.now().time().replace(microsecond=0)
                 for connection in active_connections:
                     await connection.send_text(f"{message.timestamp}: User_{message.user}: {message.data}")
-                    # update and record chat history into cache storage (redis)
+                    # Update and record chat history into cache storage (redis)
                     chat.messages.append(message)
                     history = chat.messages
                     history = json.dumps(history, default=pydantic_encoder)
@@ -68,6 +78,8 @@ async def chat_endpoint(websocket: WebSocket, link_id: str):
             active_connections.remove(websocket)
         if redis_cache.redis_conn is not None:
             await redis_cache.redis_conn.close()
+
+
 @app.on_event("startup")
 @backoff.on_exception(
     backoff.expo,
@@ -82,4 +94,3 @@ async def startup():
     await redis_cache.redis_conn.ping()
 
     logging.info("Create connections")
-

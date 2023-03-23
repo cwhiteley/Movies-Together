@@ -25,7 +25,7 @@ async def video_control_websocket(
     cache_data = await redis_client.get(link_id)
     user, view_token = get_user_and_token(params=websocket.query_params, link=link_id)
 
-    # если пользователь есть в black_list, то не пускаю
+    # Check if the user is in the blacklist and deny access if they are
     if view_token not in cache_data["black_list"] and not websocket.query_params.get(link_id):
         await websocket.accept()
         video_context = video_contexts[link_id]

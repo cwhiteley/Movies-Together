@@ -20,28 +20,28 @@ async def websocket_endpoint(
 
     user, view_token = get_user_and_token(params=websocket.query_params, link=link_id)
 
-    # если пользователь есть в black_list, то не пускаю
+    # Check if the user is in the blacklist and deny access if they are
     if view_token not in cache_data["black_list"] and not websocket.query_params.get(link_id):
         websocket.cookies[link_id] = view_token
         await websocket.accept()
         active_connections.add(websocket)
 
-        # добавляю токен для текущего каначала
+        # Add a token for the current channel
         await websocket.send_json(data={"token_value": view_token,
                                         "token_key": link_id,
                                         "message": f" User: {user} connected"
                                         })
 
-        # добавляю пользователя в кеш, для дальнейшего сравнения
+        # Add the user to the cache, for further comparison
         cache_data["clients"].append({user: str(websocket.cookies.get(link_id))})
         await service.set_data_to_cache(key=link_id, data=cache_data)
         try:
             while True:
-                # обновляю данные из кеша
+                # Refresh data from cache
                 cache_data = await service.get_data_from_cache(link_id)
                 data = await websocket.receive_text()
                 message = json.loads(data)
-                # проверка, что данные пользователь существует
+                # Checking that user data exists
                 client = [client for client in cache_data["clients"] if client.get(message.get("user_name"))]
                 if message.get("command") == "Delete user" and message.get(
                     "user_name"
@@ -51,7 +51,7 @@ async def websocket_endpoint(
                     continue
 
                 for connection in active_connections:
-                    # узнаю сессию по токену, и выполняю команды
+                    # Recognize session by token and execute commands
                     if connection.cookies.get(link_id) in client[0].get(message.get("user_name")):
                         await connection.send_json(data={"command": message.get("command"),
                                                          "message": f"user {message['user_name']} has been removed from the channel"})
