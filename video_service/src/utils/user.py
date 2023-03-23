@@ -1,8 +1,7 @@
-import jwt
-from faker import Faker
-from fastapi.exceptions import HTTPException
-
 from core.config import settings
+from faker import Faker
+import jwt
+from fastapi.exceptions import HTTPException
 
 
 def verify_token_group_view(token: str, secret_key: str, algorithms: list):

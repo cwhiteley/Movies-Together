@@ -18,9 +18,16 @@ class Redis(BaseSettings):
     port: int
 
 
+class TokenGroupView(BaseSettings):
+    algo: str
+    secret_key: str
+    access_lifetime: int
+
+
 class Settings(BaseSettings):
     video_service: VideoService
     redis: Redis
+    token_group_view: TokenGroupView
 
     class Config:
         env_file = (

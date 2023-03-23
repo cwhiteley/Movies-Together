@@ -1,9 +1,8 @@
-import json
-
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends
 from services.groups import GroupsService, get_groups_service
 
 from utils.user import get_user_and_token
+import json
 
 router = APIRouter()
 
@@ -15,14 +14,15 @@ active_connections = set()
 async def websocket_endpoint(
     websocket: WebSocket,
     link_id: str,
-    service: GroupsService = Depends(get_groups_service),
+    service: GroupsService = Depends(get_groups_service)
 ):
     cache_data = await service.get_data_from_cache(link_id)
 
-    user, view_token = get_user_and_token(cokies=websocket.cookies, link=link_id)
+    user, view_token = get_user_and_token(params=websocket.query_params, link=link_id)
 
     # если пользователь есть в black_list, то не пускаю
-    if view_token not in cache_data["black_list"] and not websocket.cookies.get(link_id):
+    if view_token not in cache_data["black_list"] and not websocket.query_params.get(link_id):
+        websocket.cookies[link_id] = view_token
         await websocket.accept()
         active_connections.add(websocket)
 

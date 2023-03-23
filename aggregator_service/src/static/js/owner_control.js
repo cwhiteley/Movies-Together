@@ -3,15 +3,14 @@
 const control_host = document.getElementById("control_host").textContent;
 const control_port = document.getElementById("control_port").textContent;
 const path_control_socket = document.getElementById("path_control_socket").textContent;
-const socket_control = new WebSocket("ws://"+control_host+':'+ control_port + path_control_socket);
+const socket_control = new WebSocket(url="ws://"+control_host+':'+ control_port + path_control_socket+'?'+document.cookie);
 
 socket_control.onmessage = function(event) {
     var data = JSON.parse(event.data)
     if (data["token_value"]){
-        socket_control.cookie=`${data["token_key"]}=${data["token_value"]};expires=60`;
-        document.cookie = `${data["token_key"]}=${data["token_value"]};expires=60`;
+        document.cookie = `${data["token_key"]}=${data["token_value"]};expires=300`;
     }
-    if (event.data["command"] == 'Delete user'){
+    if (data["command"] == 'Delete user'){
         location.reload()
     }
     var messages = document.getElementById('messages')
