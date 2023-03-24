@@ -128,5 +128,3 @@ class ElasticSaver:
                 logger.error(err)
             except Exception as err:
                 logger.exception(err)
-
-

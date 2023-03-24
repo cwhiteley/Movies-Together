@@ -12,10 +12,10 @@ class Message(BaseModel):
     class Config:
         orm_mode = True
 
+
 class Chat(BaseModel):
     id: str = None
     messages: List[Message] = []
 
     class Config:
         orm_mode = True
-

@@ -51,9 +51,7 @@ class BaseService:
     ) -> AbstractModel | dict:
         filters = self._convert_query_to_filter(query)
         with self.uow:
-            model = (
-                self._model.query.filter(*filters).options(*options).first()
-            )
+            model = self._model.query.filter(*filters).options(*options).first()
 
         if not model:
             raise exceptions.ModelNotFoundException(self._model_name)
@@ -69,7 +67,6 @@ class BaseService:
         _page_size: int | None = None,
         **query
     ) -> list[AbstractModel | dict]:
-
         filters = self._convert_query_to_filter(query)
 
         with self.uow:
@@ -83,9 +80,7 @@ class BaseService:
                     _page_size * (_page_num - 1)
                 )
 
-            return [
-                (x.to_dict() if convert_to_dict else x) for x in db_query.all()
-            ]
+            return [(x.to_dict() if convert_to_dict else x) for x in db_query.all()]
 
     @trace()
     def update(self, query: dict, defaults: dict = {}) -> dict:
@@ -103,9 +98,7 @@ class BaseService:
         return model.to_dict()
 
     @trace()
-    def get_or_create(
-        self, query: dict, defaults: dict = {}
-    ) -> tuple[dict, bool]:
+    def get_or_create(self, query: dict, defaults: dict = {}) -> tuple[dict, bool]:
         created = False
         filters = self._convert_query_to_filter(query)
 
@@ -119,18 +112,14 @@ class BaseService:
         return model.to_dict(), created
 
     @trace()
-    def update_or_create(
-        self, query: dict, defaults: dict = {}
-    ) -> tuple[dict, bool]:
+    def update_or_create(self, query: dict, defaults: dict = {}) -> tuple[dict, bool]:
         filters = self._convert_query_to_filter(query)
 
         with self.uow:
             model = self._model.query.filter(*filters).first()
 
             if model:
-                updated_model = self.update(
-                    query={"id": model.id}, defaults=defaults
-                )
+                updated_model = self.update(query={"id": model.id}, defaults=defaults)
                 return updated_model, False
 
             new_values = query

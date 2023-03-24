@@ -8,9 +8,7 @@ from Cryptodome.Hash import SHA256
 from Cryptodome.Protocol.KDF import PBKDF2
 from src.api.v1.decorators import trace
 
-RANDOM_STRING_CHARS = (
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-)
+RANDOM_STRING_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 
 def get_random_string(length, allowed_chars=RANDOM_STRING_CHARS):
@@ -49,9 +47,7 @@ class BasePasswordHasher(ABC):
         """
         # Each character in the salt provides
         # log_2(len(alphabet)) bits of entropy.
-        char_count = math.ceil(
-            self.salt_entropy / math.log2(len(RANDOM_STRING_CHARS))
-        )
+        char_count = math.ceil(self.salt_entropy / math.log2(len(RANDOM_STRING_CHARS)))
         return get_random_string(char_count, allowed_chars=RANDOM_STRING_CHARS)
 
     @abstractmethod
@@ -95,9 +91,7 @@ class PBKDF2PasswordHasher(BasePasswordHasher):
     iterations = 3900
     digest = SHA256
 
-    def encode(
-        self, password: str, salt: str, iterations: int | None = None
-    ) -> str:
+    def encode(self, password: str, salt: str, iterations: int | None = None) -> str:
         self._check_encode_args(password, salt)
         iterations = iterations or self.iterations
         hash = PBKDF2(password, salt, iterations, hmac_hash_module=self.digest)
@@ -115,7 +109,5 @@ class PBKDF2PasswordHasher(BasePasswordHasher):
 
     def verify(self, password: str, encoded: str) -> bool:
         decoded = self.decode(encoded)
-        encoded_2 = self.encode(
-            password, decoded["salt"], decoded["iterations"]
-        )
+        encoded_2 = self.encode(password, decoded["salt"], decoded["iterations"])
         return constant_time_compare(encoded, encoded_2)

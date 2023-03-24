@@ -7,14 +7,18 @@ from http import HTTPStatus
 from flask import Blueprint, abort, current_app, redirect, request
 from src.api.v1 import schemas
 from src.api.v1.auth import login_by_user
-from src.api.v1.decorators import (exception_wrapper, extract_query_parameters,
-                                   rate_limit)
+from src.api.v1.decorators import (
+    exception_wrapper,
+    extract_query_parameters,
+    rate_limit,
+)
 from src.core import exceptions
 from src.db.uow import uow
-from src.services.oauth_requests import (OAuthRequestService,
-                                         get_oauth_request_service)
-from src.services.social_accounts import (SocialAccountService,
-                                          get_social_account_service)
+from src.services.oauth_requests import OAuthRequestService, get_oauth_request_service
+from src.services.social_accounts import (
+    SocialAccountService,
+    get_social_account_service,
+)
 from src.services.users import UserService, get_user_service
 
 oauth_routes = Blueprint("oauth_routes", __name__, url_prefix="/api")
@@ -30,9 +34,7 @@ class Providers(str, Enum):
 @rate_limit()
 def register(
     provider: str,
-    oauth_request_service: OAuthRequestService = get_oauth_request_service(
-        uow()
-    ),
+    oauth_request_service: OAuthRequestService = get_oauth_request_service(uow()),
     **kwargs
 ):
     if provider not in Providers._value2member_map_:
@@ -46,9 +48,7 @@ def register(
         fingerprint=request.user_agent.string,
     )
 
-    url = oauth_request_service.get_provider_authorization_url(
-        provider, request_id
-    )
+    url = oauth_request_service.get_provider_authorization_url(provider, request_id)
     return redirect(url, code=HTTPStatus.TEMPORARY_REDIRECT)
 
 
@@ -60,12 +60,8 @@ def verification_code(
     state: str,
     code: str,
     user_service: UserService = get_user_service(uow()),
-    social_account_service: SocialAccountService = get_social_account_service(
-        uow()
-    ),
-    oauth_request_service: OAuthRequestService = get_oauth_request_service(
-        uow()
-    ),
+    social_account_service: SocialAccountService = get_social_account_service(uow()),
+    oauth_request_service: OAuthRequestService = get_oauth_request_service(uow()),
     **kwargs
 ):
     try:
@@ -75,9 +71,7 @@ def verification_code(
         )
     except exceptions.ApiException as e:
         current_app.logger.error(str(e))
-        raise exceptions.BadRequestException(
-            "Query parameter 'state' is wrong"
-        )
+        raise exceptions.BadRequestException("Query parameter 'state' is wrong")
 
     if not access_token:
         raise exceptions.LoginPasswordWrongException
@@ -87,9 +81,7 @@ def verification_code(
     )
 
     #  Проверяем существует ли такой SocialAccount
-    accounts = social_account_service.search(
-        social_id=credentials["social_id"]
-    )
+    accounts = social_account_service.search(social_id=credentials["social_id"])
 
     #  Если да, извлекаем аккаунт соц сети и пользователя
     if accounts:

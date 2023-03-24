@@ -4,12 +4,15 @@ from http import HTTPStatus
 
 from flask import Blueprint, request
 from src.api.v1 import schemas
-from src.api.v1.decorators import (exception_wrapper, extract_query_parameters,
-                                   rate_limit, request_body_validation,
-                                   required_permissions)
+from src.api.v1.decorators import (
+    exception_wrapper,
+    extract_query_parameters,
+    rate_limit,
+    request_body_validation,
+    required_permissions,
+)
 from src.db.uow import uow
-from src.services.login_histories import (LoginHistoryService,
-                                          get_login_history_service)
+from src.services.login_histories import LoginHistoryService, get_login_history_service
 from src.services.roles import RoleService, get_role_service
 from src.services.users import UserService, get_user_service
 
@@ -49,17 +52,13 @@ def login_history(
     _user_id: int,
     page_num: int,
     page_size: int,
-    login_history_service: LoginHistoryService = get_login_history_service(
-        uow()
-    ),
+    login_history_service: LoginHistoryService = get_login_history_service(uow()),
     **kwargs
 ) -> tuple[list[dict], int]:
     histories = login_history_service.search(
         _page_num=page_num, _page_size=page_size, user_id=_user_id
     )
-    return [
-        schemas.LoginHistoryResponse(**x).dict() for x in histories
-    ], HTTPStatus.OK
+    return [schemas.LoginHistoryResponse(**x).dict() for x in histories], HTTPStatus.OK
 
 
 @user_routes.route("/users/<int:user_id>/", methods=["GET"])
@@ -88,7 +87,6 @@ def add_role_to_user(
     role_service: RoleService = get_role_service(uow()),
     **kwargs
 ) -> tuple[dict, int]:
-
     role_id = schemas.AddRoleToUserRequest(**request.get_json()).id
     user_service.add_role(user_id, role_service, role_id)
 
@@ -96,9 +94,7 @@ def add_role_to_user(
     return schemas.UserResponse(**user).dict(), HTTPStatus.CREATED
 
 
-@user_routes.route(
-    "/users/<int:user_id>/roles/<int:role_id>/", methods=["DELETE"]
-)
+@user_routes.route("/users/<int:user_id>/roles/<int:role_id>/", methods=["DELETE"])
 @exception_wrapper()
 @rate_limit()
 @required_permissions(["can_remove_role_from_user"])
@@ -110,7 +106,6 @@ def remove_role_from_user(
     role_service: RoleService = get_role_service(uow()),
     **kwargs
 ) -> tuple[dict, int]:
-
     user_service.remove_role(user_id, role_service, role_id)
     user = user_service.get(id=user_id)
     return schemas.UserResponse(**user).dict(), HTTPStatus.NO_CONTENT

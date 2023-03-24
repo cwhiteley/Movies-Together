@@ -23,7 +23,6 @@ def trace():
     def func_wrapper(func):
         @wraps(func)
         def inner(*args, **kwargs):
-
             return func(*args, **kwargs)
 
             if not settings.enable_tracer:
@@ -166,11 +165,7 @@ def required_permissions(
                 raise exceptions.AuthTokenOutdatedException
 
             if cache.get(encoded_token):
-                print(
-                    'I"m in cache!!! \n'
-                    'I"m in cache!!! \n'
-                    'I"m in cache!!!\n'
-                )
+                print('I"m in cache!!! \n' 'I"m in cache!!! \n' 'I"m in cache!!!\n')
                 raise exceptions.AuthTokenOutdatedException
 
             token_permissions = payload.get("permissions")
@@ -217,7 +212,6 @@ def extract_query_parameters(
     def func_wrapper(func):
         @wraps(func)
         def inner(*args, **kwargs):
-
             validation_schemas = {
                 "state": schemas.OAuthStateQueryParamSchema,
                 "code": schemas.OAuthCodeQueryParamSchema,
@@ -253,7 +247,6 @@ def rate_limit(limit=30):
     def func_wrapper(func):
         @wraps(func)
         def inner(*args, **kwargs):
-
             now = datetime.datetime.now()
             ip = request.remote_addr
 

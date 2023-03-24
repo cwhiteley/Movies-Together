@@ -1,5 +1,4 @@
-from sqlalchemy import (Boolean, Column, ForeignKey, Integer, String,
-                        UniqueConstraint)
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, UniqueConstraint
 
 from src.models.base import AbstractModel
 

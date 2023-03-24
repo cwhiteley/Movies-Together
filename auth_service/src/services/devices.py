@@ -19,7 +19,6 @@ class DeviceService(BaseService):
     def get_or_create_allowed_device(
         self, user_id: int, fingerprint: str
     ) -> tuple[dict, bool]:
-
         return self.get_or_create(
             query={
                 "user_id": user_id,

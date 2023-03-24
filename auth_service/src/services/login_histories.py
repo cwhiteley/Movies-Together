@@ -15,9 +15,7 @@ class LoginHistoryService(BaseService):
     _model_name = "login_histories"
 
     def search(self, **query):
-        return super().search(
-            options=(subqueryload(self._model.device),), **query
-        )
+        return super().search(options=(subqueryload(self._model.device),), **query)
 
     def dispose_token_pair(self, **query):
         print("dispose_token_pair" * 10)

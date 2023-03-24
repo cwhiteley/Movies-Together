@@ -12,9 +12,7 @@ class RoleService(BaseService):
     _model_name = "role"
 
     def get(self, **query):
-        return super().get(
-            options=(subqueryload(self._model.permissions),), **query
-        )
+        return super().get(options=(subqueryload(self._model.permissions),), **query)
 
     def add_permission(self, role_id, service, permission_id):
         role = self.get(id=role_id, convert_to_dict=False)

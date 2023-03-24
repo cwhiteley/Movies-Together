@@ -13,9 +13,7 @@ class OAuthRequestService(BaseService):
     _model = OAuthRequest
     _model_name = "oauth_request"
 
-    def get_provider_authorization_url(
-        self, provider: str, request_id: str
-    ) -> str:
+    def get_provider_authorization_url(self, provider: str, request_id: str) -> str:
         exchangers = {
             "yandex": self._get_yandex_authorization_url,
             "google": self._get_google_authorization_url,
@@ -60,7 +58,6 @@ class OAuthRequestService(BaseService):
     def _exchange_yandex_code_to_token(
         self, provider_settings: BaseSettings, code: str
     ) -> str:
-
         url = settings.oauth.yandex.token_url
         headers = {"Content-Type": "application/x-www-form-urlencoded"}
         data = {
@@ -77,7 +74,6 @@ class OAuthRequestService(BaseService):
     def _exchange_google_code_to_token(
         self, provider_settings: BaseSettings, code: str
     ) -> str:
-
         url = settings.oauth.google.token_url
         headers = {"Content-Type": "application/x-www-form-urlencoded"}
         data = {

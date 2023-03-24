@@ -19,7 +19,6 @@ def redis_cache(model_cls, expired: int = 50):
     def wraps(fn):
         @functools.wraps(fn)
         async def decorated(request: Request, **kwargs):
-
             key = request.url.path + "?" + str(request.query_params)
             data = await _from_redis_cache(model_cls, key)
 

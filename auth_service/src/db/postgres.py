@@ -23,5 +23,4 @@ Base.query = db_session.query_property()
 
 def init_db():
     from src.models import oauth_request  # noqa: F401
-    from src.models import (device, login_history, permission,  # noqa: F401
-                            role, social_account, user)
+

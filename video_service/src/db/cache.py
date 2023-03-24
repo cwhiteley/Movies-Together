@@ -1,10 +1,11 @@
 import json
 from typing import Optional, Any
 
-from redis.asyncio import ConnectionPool
 from redis.asyncio import Redis
-
+from redis.asyncio import ConnectionPool
 from core.config import settings
+
+import redis
 
 
 class RedisClient:

@@ -34,7 +34,6 @@ class UserService(BaseService):
         last_name: str,
         is_superuser: bool = False,
     ) -> dict:
-
         hashed_password = self._hasher.encode(password, self._hasher.salt())
 
         return super().create(

@@ -31,9 +31,7 @@ class Role(AbstractModel):
         back_populates="roles",
     )
 
-    users = relationship(
-        "User", secondary=m2m_user_role_table, back_populates="roles"
-    )
+    users = relationship("User", secondary=m2m_user_role_table, back_populates="roles")
 
     def __repr__(self) -> str:
         return f"<Role {self.name}>"
@@ -41,8 +39,6 @@ class Role(AbstractModel):
     def to_dict(self) -> dict:
         obj = super().to_dict()
         if self.permissions is not None:
-            obj.update(
-                {"permissions": [x.to_dict() for x in self.permissions]}
-            )
+            obj.update({"permissions": [x.to_dict() for x in self.permissions]})
 
         return obj

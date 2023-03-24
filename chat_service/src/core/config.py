@@ -12,6 +12,7 @@ class ChatService(BaseSettings):
     host: str
     port: int
 
+
 class Redis_conn(BaseSettings):
     host: str
     port: int
@@ -21,6 +22,7 @@ class TokenGroupView(BaseSettings):
     algo: str
     secret_key: str
     access_lifetime: int
+
 
 class Settings(BaseSettings):
     chat_service: ChatService

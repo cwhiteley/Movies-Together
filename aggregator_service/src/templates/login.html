@@ -22,6 +22,8 @@
 </footer>
 <script>
     const form = document.querySelector('form');
+    document.cookie = 'test=1';
+
     form.addEventListener('submit', async (event) => {
         event.preventDefault();  // prevent the form from submitting normally
 
@@ -41,6 +43,7 @@
         });
 
         const data = await response.json();
+        // set test cookie
 
         if (response.ok) {
             // handle successful login
@@ -70,6 +73,7 @@
             signInButton.parentNode.replaceChild(button, signInButton);
 
             console.log('Access token: ' + accessToken, 'Refresh token: ' + refreshToken);
+
         } else {
             // handle login error
             console.error('Login failed.');

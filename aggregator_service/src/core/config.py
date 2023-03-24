@@ -39,6 +39,7 @@ class Token(BaseSettings):
     refresh_lifetime: int
     algo: str
 
+
 class TokenGroupView(BaseSettings):
     algo: str
     secret_key: str

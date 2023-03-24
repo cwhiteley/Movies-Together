@@ -24,11 +24,7 @@ class FlaskUnitOfWork(AbstractUnitOfWork):
         return super().__enter__()
 
     def __exit__(self, exc_type, exc_value, traceback):
-        if (
-            exc_type
-            and exc_value
-            and issubclass(exc_type, sqlalchemy.exc.DBAPIError)
-        ):
+        if exc_type and exc_value and issubclass(exc_type, sqlalchemy.exc.DBAPIError):
             message = self.parse_error_detail(str(exc_value))
             raise exceptions.DbException(message)
 
@@ -40,7 +36,6 @@ class FlaskUnitOfWork(AbstractUnitOfWork):
             message = self.parse_error_detail(str(e))
 
             if isinstance(e, sqlalchemy.exc.IntegrityError):
-
                 if "UniqueViolation" in str(e):
                     field = self.parse_field_name(
                         r"Key \((?P<field>[\w\s,]+)\)=", str(e)
@@ -48,9 +43,7 @@ class FlaskUnitOfWork(AbstractUnitOfWork):
                     raise exceptions.NotUniqueDbException(message, field)
 
                 if "NotNullViolation" in str(e):
-                    field = self.parse_field_name(
-                        r'column "(?P<field>\w+)" of', str(e)
-                    )
+                    field = self.parse_field_name(r'column "(?P<field>\w+)" of', str(e))
                     raise exceptions.NotNullDbException(message, field)
 
             raise exceptions.DbException(message)

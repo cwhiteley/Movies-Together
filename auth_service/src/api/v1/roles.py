@@ -4,9 +4,12 @@ from http import HTTPStatus
 
 from flask import Blueprint, request
 from src.api.v1 import schemas
-from src.api.v1.decorators import (exception_wrapper, rate_limit,
-                                   request_body_validation,
-                                   required_permissions)
+from src.api.v1.decorators import (
+    exception_wrapper,
+    rate_limit,
+    request_body_validation,
+    required_permissions,
+)
 from src.db.uow import uow
 from src.services.permissions import PermissionService, get_permission_service
 from src.services.roles import RoleService, get_role_service
@@ -21,9 +24,7 @@ role_routes = Blueprint("role_routes", __name__, url_prefix="/api/v1")
 def get_role(
     _user_id: int, service: RoleService = get_role_service(uow()), **kwargs
 ) -> tuple[list[dict], int]:
-    return [
-        schemas.RoleResponse(**x).dict() for x in service.search()
-    ], HTTPStatus.OK
+    return [schemas.RoleResponse(**x).dict() for x in service.search()], HTTPStatus.OK
 
 
 @role_routes.route("/roles/", methods=["POST"])
@@ -81,7 +82,6 @@ def add_permission_to_role(
     permission_service: PermissionService = get_permission_service(uow()),
     **kwargs
 ) -> tuple[dict, int]:
-
     permission_id = schemas.AddPermissionToRoleRequest(**request.get_json()).id
     role_service.add_permission(role_id, permission_service, permission_id)
 

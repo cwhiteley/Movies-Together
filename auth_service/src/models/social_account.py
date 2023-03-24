@@ -8,9 +8,7 @@ class SocialAccount(AbstractModel):
     """БД модель аккаунта в социальной сети"""
 
     __tablename__ = "social_accounts"
-    __table_args__ = (
-        UniqueConstraint("social_id", "provider", name="social_pk"),
-    )
+    __table_args__ = (UniqueConstraint("social_id", "provider", name="social_pk"),)
 
     id = Column(Integer, primary_key=True)
     user_id = Column(

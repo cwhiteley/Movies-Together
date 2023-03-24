@@ -68,8 +68,8 @@ class PostgresExtractor:
     async def extract_filmwork(self, bunch_size: int) -> tuple:
         """Getting movie pydantic classes by latest state"""
 
-        async with await (
-            psycopg.AsyncConnection.connect(**self.dsl, row_factory=class_row(Movie))
+        async with await psycopg.AsyncConnection.connect(
+            **self.dsl, row_factory=class_row(Movie)
         ) as conn:
             async with conn.cursor() as cur:
                 while True:
@@ -154,8 +154,8 @@ class PostgresExtractor:
     async def extract_genres_data(self) -> tuple:
         """Getting genres pydantic classes by latest state"""
 
-        async with await (
-            psycopg.AsyncConnection.connect(**self.dsl, row_factory=class_row(Genre))
+        async with await psycopg.AsyncConnection.connect(
+            **self.dsl, row_factory=class_row(Genre)
         ) as conn:
             # Open a cursor to perform database operations
             async with conn.cursor() as cur:
@@ -193,8 +193,8 @@ class PostgresExtractor:
     async def extract_persons_data(self, bunch_size: int) -> tuple:
         """Getting persons pydantic classes by latest state"""
 
-        async with await (
-            psycopg.AsyncConnection.connect(**self.dsl, row_factory=class_row(Person))
+        async with await psycopg.AsyncConnection.connect(
+            **self.dsl, row_factory=class_row(Person)
         ) as conn:
             # Open a cursor to perform database operations
             async with conn.cursor() as cur:

@@ -1,21 +1,20 @@
 import json
 import logging
-from datetime import datetime
 import re
+from datetime import datetime
 
 import backoff
 import redis as redis_bibl
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Depends
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import ORJSONResponse
-from utils.user import get_user_and_token
-from redis import asyncio as aioredis
 from pydantic.json import pydantic_encoder
+from redis import asyncio as aioredis
 
 from core.config import settings
+from db import redis_cache
 from models.chat import Chat, Message
 from utils.get_history import get_history
-from db import redis_cache
-from db.redis_cache import get_cache_conn, Redis
+from utils.user import get_user_and_token
 
 logging.basicConfig(level=logging.INFO)
 
@@ -52,7 +51,9 @@ async def chat_endpoint(websocket: WebSocket, link_id: str):
     user, view_token = get_user_and_token(params=websocket.query_params, link=link_id)
 
     # Check if the user is in the blacklist and deny access if they are
-    if view_token not in cache_data["black_list"] and not websocket.query_params.get(link_id):
+    if view_token not in cache_data["black_list"] and not websocket.query_params.get(
+        link_id
+    ):
         await websocket.accept()
         active_connections.add(websocket)
 
@@ -68,12 +69,14 @@ async def chat_endpoint(websocket: WebSocket, link_id: str):
                 message = Message(**data)
                 message.timestamp = datetime.now().time().replace(microsecond=0)
                 for connection in active_connections:
-                    await connection.send_text(f"{message.timestamp}: User_{message.user}: {message.data}")
+                    await connection.send_text(
+                        f"{message.timestamp}: User_{message.user}: {message.data}"
+                    )
                     # Update and record chat history into cache storage (redis)
                     chat.messages.append(message)
                     history = chat.messages
                     history = json.dumps(history, default=pydantic_encoder)
-                    await redis_conn.set(chat.id, history)
+                    await redis_conn.set(chat.id, history, expire=86400)
         except WebSocketDisconnect:
             active_connections.remove(websocket)
         if redis_cache.redis_conn is not None:
