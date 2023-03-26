@@ -31,5 +31,5 @@ docker-compose up --build
 ``` 
 This will build and start all of the required services, including the frontend, backend, and database.
 
-https://github.com/Berupor/Movies-Together
+
 
