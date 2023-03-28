@@ -76,7 +76,7 @@ async def chat_endpoint(websocket: WebSocket, link_id: str):
                     chat.messages.append(message)
                     history = chat.messages
                     history = json.dumps(history, default=pydantic_encoder)
-                    await redis_conn.set(chat.id, history, expire=86400)
+                    await redis_conn.set(chat.id, history)
         except WebSocketDisconnect:
             active_connections.remove(websocket)
         if redis_cache.redis_conn is not None:
