@@ -29,6 +29,9 @@ First, you will need to create `.env` file by copying the `.env.example` file. T
 ```console
 docker-compose up --build
 ``` 
+```console
+make migrate
+```
 This will build and start all of the required services, including the frontend, backend, and database.
 
 
